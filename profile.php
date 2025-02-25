@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password_confirm = $_POST['password_confirm'] ?? '';
 
     if (empty($email) || empty($name) || empty($lastname) || empty($address) || empty($phone)) {
-        echo "<p class='text-danger'>All fields are required!</p>";
+        echo "<p class='text-red-500'>All fields are required!</p>";
     } elseif ($password !== $password_confirm) {
-        echo "<p class='text-danger'>Passwords do not match!</p>";
+        echo "<p class='text-red-500'>Passwords do not match!</p>";
     } else {
         try {
             if (!empty($password)) {
@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->execute([$email, $name, $lastname, $address, $phone, $_SESSION['user_id']]);
             }
 
-            echo "<p class='text-success'>Profile updated successfully!</p>";
+            echo "<p class='text-green-500'>Profile updated successfully!</p>";
         } catch (PDOException $e) {
-            echo "<p class='text-danger'>Error updating profile: " . $e->getMessage() . "</p>";
+            echo "<p class='text-red-500'>Error updating profile: " . $e->getMessage() . "</p>";
         }
     }
 }
@@ -44,42 +44,90 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
-<div class="container mt-4">
-    <h2>Your Profile</h2>
-    <p>Check my orders <a href="my_orders.php">here</a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto p-6 bg-white mt-8 max-w-lg rounded-lg">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Your Profile</h2>
+        <a href="my_orders.php" class="inline-flex items-center bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200 text-sm">
+            View My Orders
+        </a>
+    </div>
+
     <form method="post">
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" id="email" class="form-control" value="<?= htmlspecialchars($user['email']) ?>" >
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700">Email</label>
+            <input type="email" name="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['email']) ?>" required>
         </div>
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" name="name" id="name" class="form-control" value="<?= htmlspecialchars($user['name']?? '') ?>" >
+
+        <div class="mb-4">
+            <label for="name" class="block text-gray-700">Name</label>
+            <input type="text" name="name" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['name'] ?? '') ?>" required>
         </div>
-        <div class="mb-3">
-            <label for="lastname" class="form-label">Last Name</label>
-            <input type="text" name="lastname" id="lastname" class="form-control" value="<?= htmlspecialchars($user['lastname']?? '') ?>" >
+
+        <div class="mb-4">
+            <label for="lastname" class="block text-gray-700">Last Name</label>
+            <input type="text" name="lastname" id="lastname" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['lastname'] ?? '') ?>" required>
         </div>
-        <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" name="address" id="address" class="form-control" value="<?= htmlspecialchars($user['address']?? '') ?>" >
+
+        <div class="mb-4">
+            <label for="address" class="block text-gray-700">Address</label>
+            <input type="text" name="address" id="address" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['address'] ?? '') ?>" required>
         </div>
-        <div class="mb-3">
-            <label for="phone" class="form-label">Phone</label>
-            <input type="text" name="phone" id="phone" class="form-control" value="<?= htmlspecialchars($user['phone']?? '') ?>" >
+
+        <div class="mb-4">
+            <label for="phone" class="block text-gray-700">Phone</label>
+            <input type="tel" name="phone" id="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['phone'] ?? '') ?>" required>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" id="password" class="form-control" >
+
+        <div class="mb-4">
+            <label for="password" class="block text-gray-700">Password</label>
+            <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
         </div>
-        <div class="mb-3">
-            <label for="password_confirm" class="form-label">Confirm Password</label>
-            <input type="password" name="password_confirm" id="password_confirm" class="form-control" >
+
+        <div class="mb-4">
+            <label for="password_confirm" class="block text-gray-700">Confirm Password</label>
+            <input type="password" name="password_confirm" id="password_confirm" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
         </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+
+        <div class="flex justify-end gap-4 mt-6">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200">Save Changes</button>
+            <a href="logout.php" class="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200">Logout</a>
+        </div>
     </form>
-    <br>
-    <a href="logout.php" class="btn btn-danger">Logout</a>
+
 </div>
+
+<script>
+    const phoneInput = document.querySelector("#phone");
+    const iti = window.intlTelInput(phoneInput, {
+        separateDialCode: true,
+        initialCountry: "FI", // Финский код по умолчанию
+        geoIpLookup: function(callback) {
+            fetch("https://ipinfo.io?token=your_ipinfo_token", { method: "GET" })
+                .then(response => response.json())
+                .then(data => callback(data.country));
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
+
+    // Обновление значения телефона с кодом страны перед отправкой
+    document.querySelector("form").addEventListener("submit", function() {
+        document.querySelector("#phone").value = iti.getNumber();
+    });
+</script>
+
+</body>
+</html>
 
 <?php include 'includes/footer.php'; ?>

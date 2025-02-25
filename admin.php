@@ -8,12 +8,12 @@ include 'includes/header.php';
 $tables = ['products', 'customers', 'orders', 'order_items']; 
 ?>
 
-<div class="container mt-4">
-    <h2 class="text-center text-danger">Admin Panel</h2>
-    <ul class="nav nav-tabs">
+<div class="w-full mt-4 px-4">
+    <h2 class="text-center text-3xl font-semibold text-danger mb-6">Admin Panel</h2>
+    <ul class="flex space-x-4 justify-center mb-4">
         <?php foreach ($tables as $table): ?>
             <li class="nav-item">
-                <a class="nav-link <?= isset($_GET['table']) && $_GET['table'] == $table ? 'active' : '' ?>" href="?table=<?= $table ?>"><?= ucfirst($table) ?></a>
+                <a class="nav-link px-4 py-2 text-lg <?= isset($_GET['table']) && $_GET['table'] == $table ? 'bg-blue-600 text-white rounded-lg' : 'text-gray-700 hover:bg-gray-200 rounded-lg' ?>" href="?table=<?= $table ?>"><?= ucfirst($table) ?></a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -21,13 +21,13 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
     <?php
     if (isset($_GET['table']) && in_array($_GET['table'], $tables)) {
         $table = $_GET['table'];
-        echo "<h3 class='mt-3'>Table: " . ucfirst($table) . "</h3>";
+        echo "<h3 class='text-2xl font-semibold mb-3'>Table: " . ucfirst($table) . "</h3>";
 
         if (isset($_GET['delete'])) {
             $id = intval($_GET['delete']);
             $stmt = $db_connection->prepare("DELETE FROM $table WHERE id = ?");
             $stmt->execute([$id]);
-            echo "<p class='text-danger'>Record deleted!</p>";
+            echo "<p class='text-red-600'>Record deleted!</p>";
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -61,71 +61,76 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
 
             $stmt = $db_connection->prepare($sql);
             if ($stmt->execute($values)) {
-                echo "<p class='text-success'>Record saved!</p>";
+                echo "<p class='text-green-600'>Record saved!</p>";
             } else {
-                echo "<p class='text-danger'>Error saving record.</p>";
+                echo "<p class='text-red-600'>Error saving record.</p>";
             }
         }
 
         $stmt = $db_connection->query("SELECT * FROM $table");
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo '<table class="table table-bordered mt-3"><tr>';
+        echo '<div class="overflow-x-auto mb-6"><table class="min-w-full table-auto border-separate border-spacing-0 border border-gray-300"><thead>';
+        echo '<tr class="bg-gray-100">';
         foreach (array_keys($rows[0] ?? []) as $column) {
-            echo "<th>{$column}</th>";
+            echo "<th class='px-4 py-2 border-b border-gray-200 text-left text-sm font-medium text-gray-700'>{$column}</th>";
         }
-        echo '<th>Actions</th></tr>';
+        echo '<th class="px-4 py-2 border-b border-gray-200 text-left text-sm font-medium text-gray-700">Actions</th>';
+        echo '</tr></thead><tbody>';
 
         foreach ($rows as $row) {
-            echo '<tr>';
+            echo '<tr class="hover:bg-gray-50">';
             echo '<form method="post"><input type="hidden" name="id" value="' . $row['id'] . '">';
 
             foreach ($row as $key => $value) {
                 $value = htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+                $inputClass = in_array($key, ['id', 'price', 'quantity']) ? 'w-24' : 'w-full';
+
                 if ($key == 'image_url') {
-                    echo '<td><input type="url" class="form-control" name="' . $key . '" value="' . $value . '" placeholder="Enter image URL"></td>';
+                    echo '<td class="px-4 py-2 border-b border-gray-200"><input type="url" class="form-input ' . $inputClass . '" name="' . $key . '" value="' . $value . '" placeholder="Enter image URL"></td>';
                 } elseif ($key == 'category' && $table == 'products') {
-                    echo '<td>
-                        <select class="form-control" name="category">
-                            <option value="coffee"' . ($value == 'coffee' ? ' selected' : '') . '>Coffee</option>
-                            <option value="coffee_maker"' . ($value == 'coffee_maker' ? ' selected' : '') . '>Coffee Maker</option>
-                        </select>
-                    </td>';
+                    echo '<td class="px-4 py-2 border-b border-gray-200"><select class="form-select ' . $inputClass . '" name="category">
+                        <option value="coffee"' . ($value == 'coffee' ? ' selected' : '') . '>Coffee</option>
+                        <option value="coffee_maker"' . ($value == 'coffee_maker' ? ' selected' : '') . '>Coffee Maker</option>
+                    </select></td>';
                 } elseif ($key == 'brand' && $table == 'products') {
-                    echo '<td><input type="text" class="form-control" name="brand" value="' . $value . '" placeholder="Enter brand"></td>';
+                    echo '<td class="px-4 py-2 border-b border-gray-200"><input type="text" class="form-input ' . $inputClass . '" name="brand" value="' . $value . '" placeholder="Enter brand"></td>';
                 } else {
-                    echo '<td><input type="text" class="form-control" name="' . $key . '" value="' . $value . '"></td>';
+                    echo '<td class="px-4 py-2 border-b border-gray-200"><input type="text" class="form-input ' . $inputClass . '" name="' . $key . '" value="' . $value . '"></td>';
                 }
             }
 
-            echo '<td>
+            echo '<td class="px-4 py-2 border-b border-gray-200">
                 <button type="submit" class="btn btn-success btn-sm">Save</button>
                 <a href="?table=' . $table . '&delete=' . $row['id'] . '" class="btn btn-danger btn-sm">Delete</a>
             </td></form>';
             echo '</tr>';
         }
 
-        echo '<tr><form method="post">';
+        echo '</tbody></table></div>';
+
+        echo '<div class="overflow-x-auto"><table class="min-w-full table-auto border-separate border-spacing-0 border border-gray-300"><tbody><tr>';
+        echo '<form method="post">';
         foreach (array_keys($rows[0] ?? []) as $column) {
+            $inputClass = in_array($column, ['id', 'price', 'quantity']) ? 'w-24' : 'w-full';
             if ($column == 'image_url') {
-                echo '<td><input type="url" class="form-control" name="' . $column . '" placeholder="Enter image URL"></td>';
+                echo '<td class="px-4 py-2 border-b border-gray-200"><input type="url" class="form-input ' . $inputClass . '" name="' . $column . '" placeholder="Enter image URL"></td>';
             } elseif ($column == 'category' && $table == 'products') {
-                echo '<td>
-                    <select class="form-control" name="category">
+                echo '<td class="px-4 py-2 border-b border-gray-200"><select class="form-select ' . $inputClass . '" name="category">
                         <option value="coffee">Coffee</option>
                         <option value="coffee_maker">Coffee Maker</option>
-                    </select>
-                </td>';
+                    </select></td>';
             } elseif ($column == 'brand' && $table == 'products') {
-                echo '<td><input type="text" class="form-control" name="brand" placeholder="Enter brand"></td>';
+                echo '<td class="px-4 py-2 border-b border-gray-200"><input type="text" class="form-input ' . $inputClass . '" name="brand" placeholder="Enter brand"></td>';
             } else {
-                echo '<td><input type="text" class="form-control" name="' . $column . '" placeholder="' . $column . '"></td>';
+                echo '<td class="px-4 py-2 border-b border-gray-200"><input type="text" class="form-input ' . $inputClass . '" name="' . $column . '" placeholder="' . $column . '"></td>';
             }
         }
-        echo '<td><button type="submit" class="btn btn-primary btn-sm">Add</button></td></form></tr>';
-        echo '</table>';
+        echo '<td class="px-4 py-2 border-b border-gray-200"><button type="submit" class="btn btn-primary btn-sm">Add</button></td></form>';
+        echo '</tr></tbody></table></div>';
     }
     ?>
+    <script src="https://cdn.tailwindcss.com"></script>
 </div>
 
 <?php include 'includes/footer.php'; ?>

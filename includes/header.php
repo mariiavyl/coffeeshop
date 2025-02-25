@@ -5,24 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Coffee shop</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-  <div class="container-fluid">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link active" href="index.php">Coffee</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="login.php">Account</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="cart.php">Basket</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+  <nav class="bg-blue-600 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <ul class="flex space-x-4">
+        <li><a href="index.php" class="text-white font-semibold hover:text-gray-300">Coffee</a></li>
+        <li><a href="login.php" class="text-white font-semibold hover:text-gray-300">Account</a></li>
+        <li><a href="cart.php" class="text-white font-semibold hover:text-gray-300">Basket</a></li>
+      </ul>
+    </div>
+  </nav>
+
+

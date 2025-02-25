@@ -112,7 +112,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     const phoneInput = document.querySelector("#phone");
     const iti = window.intlTelInput(phoneInput, {
         separateDialCode: true,
-        initialCountry: "FI", // Финский код по умолчанию
+        initialCountry: "FI", 
         geoIpLookup: function(callback) {
             fetch("https://ipinfo.io?token=your_ipinfo_token", { method: "GET" })
                 .then(response => response.json())
@@ -121,7 +121,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
     });
 
-    // Обновление значения телефона с кодом страны перед отправкой
     document.querySelector("form").addEventListener("submit", function() {
         document.querySelector("#phone").value = iti.getNumber();
     });

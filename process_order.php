@@ -28,24 +28,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
         try {
             $db_connection->beginTransaction();
 
-            $total_price = 0;
+            $total_price_alv = 0;
             foreach ($_SESSION['cart'] as $product_id => $qty) {
-                $stmt_product = $db_connection->prepare("SELECT price FROM products WHERE id = ?");
+                $stmt_product = $db_connection->prepare("SELECT price_alv FROM products WHERE id = ?");
                 $stmt_product->execute([$product_id]);
                 $product = $stmt_product->fetch(PDO::FETCH_ASSOC);
-                $total_price += $product['price'] * $qty;
+                $total_price_alv += $product['price_alv'] * $qty;
             }
 
-            $stmt = $db_connection->prepare("INSERT INTO orders (customer_id, total_price) VALUES (?, ?)");
-            $stmt->execute([$_SESSION['user_id'], $total_price]);
+            $stmt = $db_connection->prepare("INSERT INTO orders (customer_id, total_price_alv) VALUES (?, ?)");
+            $stmt->execute([$_SESSION['user_id'], $total_price_alv]);
             $order_id = $db_connection->lastInsertId();
 
-            $stmt = $db_connection->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+            $stmt = $db_connection->prepare("INSERT INTO order_items (order_id, product_id, quantity, price_alv) VALUES (?, ?, ?, ?)");
             foreach ($_SESSION['cart'] as $product_id => $qty) {
-                $stmt_product = $db_connection->prepare("SELECT price FROM products WHERE id = ?");
+                $stmt_product = $db_connection->prepare("SELECT price_alv FROM products WHERE id = ?");
                 $stmt_product->execute([$product_id]);
                 $product = $stmt_product->fetch(PDO::FETCH_ASSOC);
-                $stmt->execute([$order_id, $product_id, $qty, $product['price']]);
+                $stmt->execute([$order_id, $product_id, $qty, $product['price_alv']]);
             }
 
             $db_connection->commit();

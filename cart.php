@@ -56,13 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '</thead>';
             echo '<tbody>';
 
-            $total = 0;
+            $total_price_alv = 0;
             foreach ($_SESSION['cart'] as $id => $qty) {
                 $stmt = $db_connection->prepare("SELECT * FROM products WHERE id = ?");
                 $stmt->execute([$id]);
                 $product = $stmt->fetch(PDO::FETCH_ASSOC);
-                $sum = $product['price'] * $qty;
-                $total += $sum;
+                $sum = $product['price_alv'] * $qty;
+                $total_price_alv += $sum;
 
                 echo "<tr>";
                 echo "<td class='py-2 px-4 border-b text-center'>{$product['name']}</td>";  // Меньший паддинг для ячеек
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button type='submit' name='update' class='bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600'>Update</button>
                         </form>
                       </td>";  // Меньший паддинг для ячеек
-                echo "<td class='py-2 px-4 border-b text-center'>{$product['price']} €</td>";  // Меньший паддинг для ячеек
+                echo "<td class='py-2 px-4 border-b text-center'>{$product['price_alv']} €</td>";  // Меньший паддинг для ячеек
                 echo "<td class='py-2 px-4 border-b text-center'>{$sum} €</td>";  // Меньший паддинг для ячеек
                 echo "<td class='py-2 px-4 border-b text-center'>
                         <form method='post' style='display:inline-block;'>
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "</tr>";
             }
 
-            echo "<tr><td colspan='3' class='text-right py-2 px-4'><strong>Subtotal:</strong></td><td class='text-center py-2 px-4'><strong>{$total} €</strong></td></tr>";  // Меньший паддинг для ячеек
+            echo "<tr><td colspan='3' class='text-right py-2 px-4'><strong>Subtotal:</strong></td><td class='text-center py-2 px-4'><strong>{$total_price_alv} €</strong></td></tr>";  // Меньший паддинг для ячеек
             echo '</tbody>';
             echo '</table>';
 

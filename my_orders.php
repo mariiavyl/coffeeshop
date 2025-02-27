@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$stmt = $db_connection->prepare("SELECT order_date, total_price FROM orders WHERE customer_id = ? ORDER BY order_date DESC");
+$stmt = $db_connection->prepare("SELECT order_date, total_price_alv FROM orders WHERE customer_id = ? ORDER BY order_date DESC");
 $stmt->execute([$_SESSION['user_id']]);
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -29,7 +29,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($orders as $order): ?>
                         <tr class="hover:bg-gray-50 transition">
                             <td class="py-3 px-4 text-gray-800"><?= htmlspecialchars($order['order_date']) ?></td>
-                            <td class="py-3 px-4 text-gray-800 font-medium"><?= htmlspecialchars($order['total_price']) ?> €</td>
+                            <td class="py-3 px-4 text-gray-800 font-medium"><?= htmlspecialchars($order['total_price_alv']) ?> €</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

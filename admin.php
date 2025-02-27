@@ -38,6 +38,11 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
                 $_POST['image_url'] = filter_var($_POST['image_url'], FILTER_VALIDATE_URL) ? $_POST['image_url'] : '';
             }
 
+            // Убираем столбец price_alv, если он есть
+            if (isset($_POST['price_alv'])) {
+                unset($_POST['price_alv']);
+            }
+
             if ($table == 'products') {
                 if (isset($_POST['category'])) {
                     $_POST['category'] = in_array($_POST['category'], ['coffee', 'coffee_maker']) ? $_POST['category'] : 'coffee';

@@ -61,7 +61,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="flex flex-col justify-between p-4 h-full">
                     <div>
                         <h5 class="text-lg font-semibold text-gray-900"><?= htmlspecialchars($product['name'] ?? 'No name') ?></h5>
-                        <p class="text-lg text-red-500 font-bold mt-1"><?= htmlspecialchars($product['price'] ?? '0.00') ?> €</p>
+                        <p class="text-lg text-red-500 font-bold mt-1">
+    <?= htmlspecialchars(number_format(($product['price'] ?? 0) * 1.255, 2, '.', '')) ?> €
+</p>
                     </div>
                     <div class="flex items-center justify-center space-x-2 mt-4 mb-4"> <!-- Добавлен отступ снизу -->
                         <a href="product.php?id=<?= $product['id'] ?>" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200">View Product</a>

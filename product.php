@@ -27,8 +27,8 @@ if (!$product) {
         <div>
             <h2 class="text-3xl font-semibold mb-4 text-gray-800"><?= htmlspecialchars($product['name'] ?? 'No name') ?></h2>
             <p class="text-gray-600 mb-4"><?= htmlspecialchars($product['description'] ?? 'No description available') ?></p>
-            <p class="text-2xl text-red-600 font-bold mb-6"><?= htmlspecialchars($product['price'] ?? '0.00') ?> €</p>
-
+             <!-- ALV 25,5 -->
+            <p class="text-2xl text-red-600 font-bold mb-6"><?= htmlspecialchars(number_format(($product['price'] ?? 0) * 1.255, 2, '.', ''))?> €</p>  
             <form action="cart.php" method="post" class="space-y-4">
                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
 

@@ -32,10 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
-    <nav class="bg-blue-600 p-4 text-white">
-        <div class="container mx-auto flex justify-between">
-            <h1 class="text-2xl font-bold">Shopping Cart</h1>
-        </div>
     </nav>
 
     <main class="container mx-auto p-6">

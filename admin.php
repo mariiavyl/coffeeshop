@@ -23,12 +23,24 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
         $table = $_GET['table'];
         echo "<h3 class='text-2xl font-semibold mb-3'>Table: " . ucfirst($table) . "</h3>";
 
-        if (isset($_GET['delete'])) {
+        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             $id = intval($_GET['delete']);
             $stmt = $db_connection->prepare("DELETE FROM $table WHERE id = ?");
             $stmt->execute([$id]);
-            echo "<p class='text-red-600'>Record deleted!</p>";
+        
+            echo '<div id="delete-notification" class="fixed bottom-4 right-4 p-4 bg-red-600 text-white shadow-lg rounded-lg">
+            Record deleted
+            </div>';
+           echo "<script>
+               setTimeout(() => {
+               document.getElementById('delete-notification').remove();
+               window.location.href = '?table=$table';}
+               , 3000);
+               </script>";
         }
+
+
+        
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = $_POST['id'] ?? 0;
@@ -66,9 +78,23 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
 
             $stmt = $db_connection->prepare($sql);
             if ($stmt->execute($values)) {
-                echo "<p class='text-green-600'>Record saved!</p>";
+                echo '<div id="save-notification" class="fixed bottom-4 right-4 p-4 bg-green-600 text-white rounded-lg shadow-lg">
+                Record saved
+                </div>';
+                echo "<script>
+                setTimeout(() => {
+                    document.getElementById('save-notification').remove();
+                }, 3000);
+                </script>";
             } else {
-                echo "<p class='text-red-600'>Error saving record.</p>";
+                echo '<div id="error-notification" class="fixed bottom-4 right-4 p-4 bg-green-600 text-white rounded-lg shadow-lg">
+                Error saving record
+                </div>';
+                echo "<script>
+                    setTimeout(() => {
+                    getElementById('error-notification').remove();
+                    }, 3000);
+                </script>";
             }
         }
 
@@ -106,8 +132,12 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
             }
 
             echo '<td class="px-4 py-2 border-b border-gray-200">
-                <button type="submit" class="btn btn-success btn-sm">Save</button>
-                <a href="?table=' . $table . '&delete=' . $row['id'] . '" class="btn btn-danger btn-sm">Delete</a>
+
+
+<button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-3 rounded text-sm">Save</button>
+<a href="?table=' . $table . '&delete=' . $row['id'] . '" class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded text-sm">Delete</a>
+
+
             </td></form>';
             echo '</tr>';
         }
@@ -131,7 +161,7 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
                 echo '<td class="px-4 py-2 border-b border-gray-200"><input type="text" class="form-input ' . $inputClass . '" name="' . $column . '" placeholder="' . $column . '"></td>';
             }
         }
-        echo '<td class="px-4 py-2 border-b border-gray-200"><button type="submit" class="btn btn-primary btn-sm">Add</button></td></form>';
+        echo '<td class="px-4 py-2 border-b border-gray-200"><button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-3 rounded text-sm">Add</button></td></form>';
         echo '</tr></tbody></table></div>';
     }
     ?>

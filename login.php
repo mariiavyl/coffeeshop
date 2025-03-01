@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body class="bg-gray-100">
 
-    <div class="flex justify-center items-center min-h-screen">
+    <div class="cont justify-center items-center p-40">
         <div class="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
             <form action="" method="POST" class="space-y-4">
@@ -61,6 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <?php include 'includes/footer.php'; ?>
+
+    <style>
+  .cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 76svh;
+  }
+  </style>
 
 </body>
 </html>

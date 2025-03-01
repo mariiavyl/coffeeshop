@@ -18,9 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password_confirm = $_POST['password_confirm'] ?? '';
 
     if (empty($email) || empty($name) || empty($lastname) || empty($address) || empty($phone)) {
-        echo "<p class='text-red-500'>All fields are required!</p>";
+        echo '<div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-yellow-500 text-white rounded-lg shadow-lg">
+            All fields are required
+          </div>
+          <script>
+            setTimeout(() => {
+                document.getElementById("warning-notification").remove();
+            }, 3000);
+          </script>';
     } elseif ($password !== $password_confirm) {
-        echo "<p class='text-red-500'>Passwords do not match!</p>";
+        echo '<div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-red-600 text-white rounded-lg shadow-lg">
+            Passwords do not match!
+          </div>
+          <script>
+            setTimeout(() => {
+                document.getElementById("warning-notification").remove();
+            }, 3000);
+          </script>';
+
+          
     } else {
         try {
             if (!empty($password)) {
@@ -44,16 +60,7 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Profile</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+
 <body class="bg-gray-100">
 
 <div class="container mx-auto p-6 bg-white mt-8 max-w-lg rounded-lg">
@@ -105,9 +112,12 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             <a href="logout.php" class="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200">Logout</a>
         </div>
     </form>
-
+    <style>
+    .iti {
+        width: 100%; /* Внешняя обертка для корректной ширины */
+    }
+     </style>
 </div>
-
 
 <script>
     const phoneInput = document.querySelector("#phone");

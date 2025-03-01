@@ -108,6 +108,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 </div>
 
+
 <script>
     const phoneInput = document.querySelector("#phone");
     const iti = window.intlTelInput(phoneInput, {

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 03, 2025 at 06:48 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Хост: localhost
+-- Время создания: Фев 27 2025 г., 08:58
+-- Версия сервера: 10.4.28-MariaDB
+-- Версия PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `coffeshop`
+-- База данных: `coffeshop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
+-- Структура таблицы `customers`
 --
 
 CREATE TABLE `customers` (
@@ -34,29 +34,28 @@ CREATE TABLE `customers` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `country_code` varchar(10) DEFAULT NULL
+  `address` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `customers`
+-- Дамп данных таблицы `customers`
 --
 
-INSERT INTO `customers` (`id`, `name`, `lastname`, `email`, `password`, `phone`, `address`, `country_code`) VALUES
-(4, 'Name', 'Lastname', 'test@test.com', '123', '123456', 'Helsinki', ''),
-(5, 'Nimi', 'Sukunimi', 'mail@com', 'qwe', '098765433', 'Osoite2', ''),
-(6, 'test2', 'testinen2', 'gmail@com', '123', '123456788754234', 'Lohja2', ''),
-(8, 'julia', 'ivanska', 'julia@fi', '123', '333666', 'lohja 08350', ''),
-(9, 'vfhb', 'dgfddfg', 'test@mail', '123', '+67964656455435', 'fgdgfdg', ''),
-(10, '', '', 'test2@mail', '123', '', '', ''),
-(11, 'mari', 'vyl', 'maria@mail', '123', NULL, NULL, ''),
-(77, 'Yuliia', 'Ivanska', 'kova@gmail.com', '123', '+9950466331676', '', ''),
-(84, 'Yuliia', 'Ivanskaa', 'ivanskayulia.yunavili@gmail.com', '1234', '+215+354', 'Sahakatu 2', '+215');
+INSERT INTO `customers` (`id`, `name`, `lastname`, `email`, `password`, `phone`, `address`) VALUES
+(1, 'Test', 'Testinen', 'admin@example.com', 'admin', '123', 'Lohja'),
+(4, 'Name', 'Lastname', 'test@test.com', '123', '123456', 'Helsinki'),
+(5, 'Nimi', 'Sukunimi', 'mail@com', 'qwe', '098765433', 'Osoite2'),
+(6, 'test2', 'testinen2', 'gmail@com', '123', '123456788754234', 'Lohja2'),
+(7, 'mari', 'vyl', 'mari@fi', '123', '12345678', 'suomi'),
+(8, 'julia', 'ivanska', 'julia@fi', '123', '333666', 'lohja 08350'),
+(9, 'vfhb', 'dgfddfg', 'test@mail', '123', '+67964656455435', 'fgdgfdg'),
+(10, '', '', 'test2@mail', '123', '', ''),
+(11, 'mari', 'vyl', 'maria@mail', '123', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Структура таблицы `orders`
 --
 
 CREATE TABLE `orders` (
@@ -67,10 +66,13 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `orders`
+-- Дамп данных таблицы `orders`
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `total_price_alv`) VALUES
+(2, 7, '2025-02-12 12:38:35', 159.00),
+(3, 7, '2025-02-12 13:02:27', 55.00),
+(4, 7, '2025-02-12 13:12:12', 273.50),
 (5, 8, '2025-02-12 13:15:12', 37.00),
 (6, 8, '2025-02-12 13:16:17', 4.50),
 (7, 11, '2025-02-25 17:02:20', 275.00),
@@ -79,16 +81,12 @@ INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `total_price_alv`) VALU
 (10, 10, '2025-02-27 09:14:47', 27.00),
 (11, 10, '2025-02-27 09:44:44', 251.65),
 (12, 10, '2025-02-27 09:53:30', 62.75),
-(13, 10, '2025-02-27 09:57:27', 12.55),
-(16, 9, '2025-02-27 18:13:29', 61.50),
-(17, 84, '2025-03-01 22:04:53', 69.03),
-(18, 84, '2025-03-01 22:05:42', 5.65),
-(19, 77, '2025-03-03 17:21:34', 61.50);
+(13, 10, '2025-02-27 09:57:27', 12.55);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_items`
+-- Структура таблицы `order_items`
 --
 
 CREATE TABLE `order_items` (
@@ -100,28 +98,37 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `order_items`
+-- Дамп данных таблицы `order_items`
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_alv`) VALUES
+(2, 2, 18, 7, 7.00),
+(3, 2, 22, 2, 25.00),
+(4, 2, 23, 2, 30.00),
+(5, 3, 6, 1, 49.00),
+(6, 3, 7, 1, 6.00),
+(7, 4, 2, 1, 4.50),
+(8, 4, 6, 5, 49.00),
+(9, 4, 9, 1, 8.00),
+(10, 4, 11, 1, 8.00),
+(11, 4, 14, 1, 8.00),
 (12, 5, 2, 6, 4.50),
 (13, 5, 24, 1, 10.00),
 (14, 6, 2, 1, 4.50),
+(15, 7, 6, 5, 49.00),
+(16, 7, 15, 5, 6.00),
 (17, 8, 6, 1, 49.00),
 (18, 9, 9, 5, 8.00),
 (19, 10, 2, 6, 4.50),
 (20, 11, 2, 1, 5.65),
 (21, 11, 6, 4, 61.50),
-(24, 16, 6, 1, 61.50),
-(25, 17, 6, 1, 61.50),
-(26, 17, 7, 1, 7.53),
-(27, 18, 2, 1, 5.65),
-(28, 19, 6, 1, 61.50);
+(22, 12, 33, 5, 12.55),
+(23, 13, 33, 1, 12.55);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Структура таблицы `products`
 --
 
 CREATE TABLE `products` (
@@ -137,7 +144,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `products`
+-- Дамп данных таблицы `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `stock`, `image_url`, `category`, `brand`) VALUES
@@ -169,29 +176,28 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `stock`, `image_ur
 (30, 'AeroPress Coffee Filters Pack of 350', 'Extra Filters for the AeroPressÂ® Original Coffee Maker 350 count takes care of even the most avid coffee drinker\'s needs', 7.00, 24, 'https://cdn11.bigcommerce.com/s-6h7ychjk4/images/stencil/1920w/products/7784/87745/aeropress-filter-pack-wbg__66945.1597177670.jpg?c=1', 'coffee_maker', 'AeroPress'),
 (31, 'Chemex Bonded White Circular Coffee Filters, 100 count', 'Known as a pristine coffeemaker, ChemexÂ® employs all of the chemically correct methods for brewing. Full bodied, richer flavor, from less coffee and as strong as you like without bitterness - that\'s what the ChemexÂ® filter gives you.', 8.00, 25, 'https://cdn11.bigcommerce.com/s-6h7ychjk4/images/stencil/1920w/products/8087/88850/chemex-bonded-filters-circles-white-100__89360.1597180726.jpg?c=1', 'coffee_maker', 'Chemex'),
 (32, 'Chemex 10 Cup Coffee Maker - Classic & Glass Handle Styles', 'Simple function and visual elegance combine for the optimum extraction of full rich-bodied coffee. This hourglass shaped flask is made entirely of glass, a chemically inert material that does not absorb odors or chemical residues. Capacity: 10 cup/50 oz. Wood Collar Style includes a polished wood collar with leather tie. Glass Handle Style includes a graceful but sturdy glass handle.', 50.00, 2, 'https://cdn11.bigcommerce.com/s-6h7ychjk4/images/stencil/1920w/products/7439/87294/chemex-10-cup-classic-copy__15582.1597176097.jpg?c=1', 'coffee_maker', 'Chemex'),
-(35, '', 'dlinnoye', 0.00, 0, '', 'coffee', ''),
-(36, '', 'dlinnoye', 0.00, 0, '', 'coffee', '');
+(33, 'test', 'test', 10.00, 1, '', 'coffee', 'test');
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `customers`
+-- Индексы таблицы `customers`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `orders`
+-- Индексы таблицы `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_id` (`customer_id`);
 
 --
--- Indexes for table `order_items`
+-- Индексы таблицы `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
@@ -199,51 +205,51 @@ ALTER TABLE `order_items`
   ADD KEY `product_id` (`product_id`);
 
 --
--- Indexes for table `products`
+-- Индексы таблицы `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `customers`
+-- AUTO_INCREMENT для таблицы `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `order_items`
+-- AUTO_INCREMENT для таблицы `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
--- Constraints for dumped tables
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `orders`
+-- Ограничения внешнего ключа таблицы `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`);
 
 --
--- Constraints for table `order_items`
+-- Ограничения внешнего ключа таблицы `order_items`
 --
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),

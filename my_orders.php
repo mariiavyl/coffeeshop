@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'includes/db.php';
 include 'includes/header.php';
 
@@ -14,7 +13,16 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Your Orders</h2>
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800">Your Orders</h2>
+    <a href="profile.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Profile
+    </a>
+</div>
+
 
     <?php if (count($orders) > 0): ?>
         <div class="overflow-x-auto">
@@ -38,15 +46,6 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php else: ?>
         <p class="text-gray-600 text-center">You have no previous orders.</p>
     <?php endif; ?>
-
-    <div class="mt-6 text-center">
-        <a href="profile.php" class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-            </svg>
-            Back to Profile
-        </a>
-    </div>
 </div>
 
 

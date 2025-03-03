@@ -28,7 +28,7 @@ $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<div class="container mx-auto mt-8">
+<div class="container mx-auto">
     <h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">Our Coffee & Coffee Makers</h2>
 
     <div class="text-center mb-6">

@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = $_POST['phone'] ?? '';
     $password = $_POST['password'] ?? '';
     $password_confirm = $_POST['password_confirm'] ?? '';
+    $agree = isset($_POST['agree']) ? true : false;
      
 
     // Проверка на пустые поля
@@ -32,6 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 document.getElementById("warning-notification").remove();
             }, 3000);
           </script>';
+    
+        } elseif (!$agree) {
+            echo '<div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-red-600 text-white rounded-lg shadow-lg">
+                You must agree to the data processing
+            </div>
+            
+            <script>
+                setTimeout(() => {
+                document.getElementById("warning-notification").remove();
+                }, 3000);
+            </script>';
+
     } else {
 
         // Проверка на уникальность email
@@ -43,8 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
 
             try {
-                 $stmt = $db_connection->prepare("INSERT INTO customers (name, lastname, email, phone, password) VALUES (?, ?, ?, ?, ?) ?");
-                 $stmt->execute([$name, $lastname, $email, $phone, $password]);
+                $stmt = $db_connection->prepare("INSERT INTO customers (name, lastname, email, phone, password) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $lastname, $email, $phone, $password]);
+                
 
                 // Если данные успешно вставлены, редирект на страницу профиля
                 if ($stmt->rowCount() > 0) {
@@ -98,6 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div>
                 <label for="password_confirm" class="block text-gray-700">Confirm Password</label>
                 <input type="password" name="password_confirm" id="password_confirm" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+            </div>
+            
+            <div class="flex items-center">
+                <input type="checkbox" name="agree" class="mr-2" required>
+                <label for="agree" class="text-gray-700">I agree to the processing of my data</label>
             </div>
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Register</button>
         </form>

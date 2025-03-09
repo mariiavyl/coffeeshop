@@ -36,7 +36,8 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
         </ul>
     </div>
 </nav>
-<?php include 'breadcrumbs.php'?>
+<?php if (!isset($disable_breadcrumbs)) include 'breadcrumbs.php'; ?>
+
 
 
 

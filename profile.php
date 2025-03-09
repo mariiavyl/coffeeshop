@@ -61,16 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body class="bg-gray-100">
 <div class="container mx-auto p-6 bg-white mt-8 max-w-4xl rounded-lg flex">
+    
     <!-- Sidebar -->
-    <div class="w-1/4 p-6 mr-20">
-        <ul class="space-y-4">
-            <li><a href="profile.php" class="text-gray-700 hover:text-gray-900">Your Profile</a></li>
-            <li><a href="my_orders.php" class="text-gray-700 hover:text-gray-900">Your Orders</a></li>
-            <li><a href="payment_methods.php" class="text-gray-700 hover:text-gray-900">Payment Methods</a></li>
-            <li><a href="account_security.php" class="text-gray-700 hover:text-gray-900">Account Security</a></li>
-            <li><a href="permissions.php" class="text-gray-700 hover:text-gray-900">Access Rights</a></li>
-        </ul>
-    </div>
+   <?php include 'includes/sidebar_profile.php'?>
 
     <!-- Profile Content -->
     <div class="flex-1">
@@ -183,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
-            <div class="flex justify-start space-x-4 mt-8">
+            <div class="flex justify-end space-x-4 mt-8">
                 <?php if ($isEditing): ?>
                     <button type="submit" name="save" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Save Changes</button>
                 <?php else: ?>
@@ -191,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
 
                 <?php if (!$isEditing): ?>
-                    <a href="change_password.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200">Change Password</a>
+                    <!-- <a href="change_password.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200">Change Password</a> -->
                 <?php endif; ?>
             </div>
         </form>

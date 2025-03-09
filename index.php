@@ -57,14 +57,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
         $imageUrl = !empty($product['image_url']) ? $product['image_url'] : '2.jpg';
         ?>
-        <img src="<?= htmlspecialchars($imageUrl) ?>" class="w-full p-4 h-[300px] object-cover mx-auto" alt="<?= htmlspecialchars($product['name'] ?? 'Unknown Product') ?>" id="product-image<?= $product['id']?>"> 
+        <img src="<?= htmlspecialchars($imageUrl) ?>" class="w-full p-4 h-[300px] object-cover mx-auto" alt="<?= htmlspecialchars($product['name'] ?? 'Unknown Product') ?>" id="product-image<?= $product['id']?>">
             <div class="flex flex-col justify-between p-4 h-full">
             <div>
                 <h5 class="text-lg font-semibold text-gray-900"><?= htmlspecialchars($product['name'] ?? 'No name') ?></h5>
                 <p class="text-lg text-red-500 font-bold mt-1"><?= htmlspecialchars($product['price_alv'] ?? '0.00') ?> €</p>
             </div>
             <div class="flex items-center justify-center space-x-2 mt-4 mb-4">
-                <a href="product.php?id=<?= $product['id'] ?>" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200">View Product</a>
+                <a href="product.php?id=<?= $product['id'] ?>&from=store" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200">View Product</a>
                 <form action="cart.php" method="post" class="flex">
                     <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
                     <input type="hidden" name="quantity" value="1">
@@ -74,24 +74,23 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 <?php endforeach; ?>
+    </div>
+</div>
+
 <script>
-    docunment.querySelectorAll('img').forEach(function(img) {
-        img.onload = function {
+    document.querySelectorAll('img').forEach(function(img) {
+        img.onload = function() {
             const imgHeight = img.naturalHeight;
             const container = img.closest('.image-container');
-
-            if (imgHeight< 300) {
+            if (imgHeight < 300) {
                 container.classList.add('pt-4', 'pb-4');
             } else {
-                container.classList.remove('pt-4, pb-4');
+                container.classList.remove('pt-4', 'pb-4');
             }
         }
     });
 </script>
 
-    </div>
-</div>
-
-
 <?php include 'includes/footer.php'; ?>
+
             

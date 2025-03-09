@@ -21,7 +21,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<nav class="bg-blue-600 p-4">
+<nav class="bg-yellow-950 p-4">
     <div class="container mx-auto flex justify-between items-center">
         <ul class="flex space-x-4 items-center">
             <li>

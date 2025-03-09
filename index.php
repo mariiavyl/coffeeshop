@@ -33,8 +33,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="text-center mb-6">
         <a href="?category=all&brand=<?= urlencode($brand) ?>" class="bg-gray-500 text-white px-6 py-3 rounded-lg mx-2 hover:bg-gray-600 transition-all duration-200">All</a>
-        <a href="?category=coffee&brand=<?= urlencode($brand) ?>" class="bg-blue-500 text-white px-6 py-3 rounded-lg mx-2 hover:bg-blue-600 transition-all duration-200">Coffee</a>
-        <a href="?category=coffee_maker&brand=<?= urlencode($brand) ?>" class="bg-blue-500 text-white px-6 py-3 rounded-lg mx-2 hover:bg-blue-600 transition-all duration-200">Coffee Makers</a>
+        <a href="?category=coffee&brand=<?= urlencode($brand) ?>" class="bg-yellow-950 text-white px-6 py-3 rounded-lg mx-2 hover:bg-yellow-800 transition-all duration-200">Coffee</a>
+        <a href="?category=coffee_maker&brand=<?= urlencode($brand) ?>" class="bg-yellow-950 text-white px-6 py-3 rounded-lg mx-2 hover:bg-yellow-800 transition-all duration-200">Coffee Makers</a>
     </div>
 
     <div class="text-center mb-6">

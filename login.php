@@ -1,5 +1,4 @@
 <?php
-ob_start();
 include 'includes/db.php';
 include 'includes/header.php';
 
@@ -14,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Проверяем, существует ли пользователь с таким email
+    // Check if a user with the given email exists
     $stmt = $db_connection->prepare("SELECT * FROM customers WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Проверяем, если пользователь найден и пароли совпадают
+    // Check if the user is found and the passwords match
     if ($user && $user['password'] === $password) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
@@ -35,14 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J2CXNQYNMZ');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J2CXNQYNMZ');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
@@ -50,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body class="bg-gray-100">
 
-    <div class="cont justify-center items-center p-40">
+<div class="flex justify-center py-12">
         <div class="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
             <form action="" method="POST" class="space-y-4">
@@ -71,15 +69,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php include 'includes/footer.php'; ?>
 
-    <style>
-  .cont {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 76svh;
-  }
-  </style>
-
 </body>
 </html>
-<?php ob_end_flush();?>

@@ -184,7 +184,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
 
                 <?php if (!$isEditing): ?>
-                    <!-- <a href="change_password.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200">Change Password</a> -->
+                    <a href="logout.php" class="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200">Logout</a>
+
+                <a href="change_password.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200">Change Password</a> 
                 <?php endif; ?>
             </div>
         </form>

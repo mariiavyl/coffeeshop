@@ -1,67 +1,45 @@
 <?php
-include 'includes/db.php';  // Подключение к базе данных
-include 'includes/header.php';  // Подключение шапки
+session_start(); // Запускаем сессию
+include 'includes/db.php';
+include 'includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    // Получаем данные из формы
     $email = $_POST['email'] ?? '';
-    $name = $_POST['name'] ?? '';  // Добавлено поле для имени
-    $lastname = $_POST['lastname'] ?? '';  // Добавлено поле для фамилии
+    $name = $_POST['name'] ?? '';
+    $lastname = $_POST['lastname'] ?? '';
     $phone = $_POST['phone'] ?? '';
     $password = $_POST['password'] ?? '';
     $password_confirm = $_POST['password_confirm'] ?? '';
-    $agree = isset($_POST['agree']) ? true : false;
-     
+    $agree = isset($_POST['agree']);
 
-    // Проверка на пустые поля
-    if (empty($email) || empty($password) || empty($phone) || empty($password_confirm) || empty($name) || empty($lastname) ) {
-        echo '<div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-yellow-500 text-white rounded-lg shadow-lg">
-            All fields are required
-          </div>
-          <script>
-            setTimeout(() => {
-                document.getElementById("warning-notification").remove();
-            }, 3000);
-          </script>';
-} elseif ($password !== $password_confirm) {
-    echo '<div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-red-600 text-white rounded-lg shadow-lg">
-            Password does not match
-          </div>
-          <script>
-            setTimeout(() => {
-                document.getElementById("warning-notification").remove();
-            }, 3000);
-          </script>';
-    
-        } elseif (!$agree) {
-            echo '<div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-red-600 text-white rounded-lg shadow-lg">
-                You must agree to the data processing
-            </div>
-            
-            <script>
-                setTimeout(() => {
-                document.getElementById("warning-notification").remove();
-                }, 3000);
-            </script>';
-
+    if (empty($email) || empty($password) || empty($phone) || empty($password_confirm) || empty($name) || empty($lastname)) {
+        echo '<div class="text-red-600 text-center">All fields are required</div>';
+    } elseif ($password !== $password_confirm) {
+        echo '<div class="text-red-600 text-center">Password does not match</div>';
+    } elseif (!$agree) {
+        echo '<div class="text-red-600 text-center">You must agree to the data processing</div>';
     } else {
-
-        // Проверка на уникальность email
         $stmt = $db_connection->prepare("SELECT id FROM customers WHERE email = ?");
         $stmt->execute([$email]);
-        
+
         if ($stmt->rowCount() > 0) {
             echo "<div class='text-red-600 text-center'>Email already taken!</div>";
         } else {
-
             try {
+                // Вставляем пароль без хеширования
                 $stmt = $db_connection->prepare("INSERT INTO customers (name, lastname, email, phone, password) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([$name, $lastname, $email, $phone, $password]);
-                
 
-                // Если данные успешно вставлены, редирект на страницу профиля
                 if ($stmt->rowCount() > 0) {
+                    // Получаем ID нового пользователя
+                    $user_id = $db_connection->lastInsertId();
+
+                    // Сохраняем данные в сессии
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['user_email'] = $email;
+                    $_SESSION['user_name'] = $name;
+
+                    // Редирект в личный кабинет
                     header('Location: profile.php');
                     exit;
                 } else {
@@ -78,6 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J2CXNQYNMZ');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
@@ -132,14 +119,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
      </style>
 
-    <script>
-    const phoneInput = document.getElementById('phone');
-    const iti = window.intlTelInput(phoneInput, {
-        initialCountry: "fi", 
-        separateDialCode: true,
-        nationalMode: false,  
-        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js",
-    });
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const phoneInput = document.querySelector("#phone");
+
+    if (phoneInput) {
+        const iti = window.intlTelInput(phoneInput, {
+            separateDialCode: true,
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json")
+                    .then(response => response.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            preferredCountries: ['fi', 'us', 'gb'],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+        });
+
+        document.getElementById("profileForm").addEventListener("submit", function() {
+            phoneInput.value = iti.getNumber();
+        });
+    }
+});
 </script>
 </body>
 </html>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Get user data including payment information
-$stmt = $db_connection->prepare("SELECT email, name, lastname, address, phone, card_number, card_holder, expiry_date, cvv FROM customers WHERE id = ?");
+$stmt = $db_connection->prepare("SELECT email, name, lastname, address, phone, card_number, card_holder, expiry_date, cvv, city, state, zipcode, country FROM customers WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -16,19 +16,31 @@ $order_success = false;
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
+    // Собираем данные из формы
     $email = $_POST['email'] ?? '';
     $name = $_POST['name'] ?? '';
     $lastname = $_POST['lastname'] ?? '';
     $address = $_POST['address'] ?? '';
     $phone = $_POST['phone'] ?? '';
     $delivery_method = $_POST['delivery_method'] ?? '';
+    $card_number = $_POST['card_number'] ?? '';
+    $card_holder = $_POST['card_holder'] ?? '';
+    $expiry_date = $_POST['expiry_date'] ?? '';
+    $cvv = $_POST['cvv'] ?? '';
+    $city = $_POST['city'] ?? '';
+    $state = $_POST['state'] ?? '';
+    $zipcode = $_POST['zipcode'] ?? '';
+    $country = $_POST['country'] ?? '';
 
+    // Проверка на заполненность обязательных полей
     if (empty($email) || empty($name) || empty($lastname) || empty($address) || empty($phone) || empty($delivery_method)) {
         $error_message = "All fields are required!";
     } else {
         try {
+            // Начинаем транзакцию
             $db_connection->beginTransaction();
 
+            // Считаем общую стоимость заказа
             $total_price_alv = 0;
             foreach ($_SESSION['cart'] as $product_id => $qty) {
                 $stmt_product = $db_connection->prepare("SELECT price_alv FROM products WHERE id = ?");
@@ -37,23 +49,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
                 $total_price_alv += $product['price_alv'] * $qty;
             }
 
+            // Сохраняем заказ в таблице orders
             $stmt = $db_connection->prepare("INSERT INTO orders (customer_id, total_price_alv, delivery_method) VALUES (?, ?, ?)");
             $stmt->execute([$_SESSION['user_id'], $total_price_alv, $delivery_method]);
             $order_id = $db_connection->lastInsertId();
 
-            $stmt = $db_connection->prepare("INSERT INTO order_items (order_id, product_id, quantity, price_alv) VALUES (?, ?, ?, ?)");
+            // Сохраняем товары заказа в таблице order_items
+            $stmt_items = $db_connection->prepare("INSERT INTO order_items (order_id, product_id, quantity, price_alv) VALUES (?, ?, ?, ?)");
             foreach ($_SESSION['cart'] as $product_id => $qty) {
                 $stmt_product = $db_connection->prepare("SELECT price_alv FROM products WHERE id = ?");
                 $stmt_product->execute([$product_id]);
                 $product = $stmt_product->fetch(PDO::FETCH_ASSOC);
-                $stmt->execute([$order_id, $product_id, $qty, $product['price_alv']]);
+                $stmt_items->execute([$order_id, $product_id, $qty, $product['price_alv']]);
             }
 
+            // Обновляем все данные пользователя
+            $stmt_update_user = $db_connection->prepare(
+                "UPDATE customers SET 
+                    email = ?, 
+                    name = ?, 
+                    lastname = ?, 
+                    address = ?, 
+                    phone = ?, 
+                    card_number = ?, 
+                    card_holder = ?, 
+                    expiry_date = ?, 
+                    cvv = ?, 
+                    city = ?, 
+                    state = ?, 
+                    zipcode = ?, 
+                    country = ? 
+                WHERE id = ?"
+            );
+            $stmt_update_user->execute([
+                $email, 
+                $name, 
+                $lastname, 
+                $address, 
+                $phone, 
+                $card_number, 
+                $card_holder, 
+                $expiry_date, 
+                $cvv, 
+                $city, 
+                $state, 
+                $zipcode, 
+                $country, 
+                $_SESSION['user_id']
+            ]);
+
+            // Завершаем транзакцию
             $db_connection->commit();
             $_SESSION['cart'] = [];
             $order_success = true;
 
-            // Redirect to order_success.php with order ID
+            // Перенаправляем на страницу успешного заказа
             header("Location: order_success.php?order_id=$order_id");
             exit;
         } catch (PDOException $e) {
@@ -108,7 +158,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
                 <label for="address" class="block text-gray-700">Address</label>
                 <input type="text" name="address" id="address" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['address']) ?>" required>
             </div>
+            
+            <div class="mb-4">
+                <label for="city" class="block text-gray-700">City</label>
+                <input type="text" name="city" id="city" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['city']) ?>">
+            </div>
+
+             <div class="mb-4">
+                <label for="state" class="block text-gray-700">State</label>
+                <input type="text" name="state" id="state" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['state']) ?>">
+            </div>
+
+           <div class="mb-4">
+              <label for="zipcode" class="block text-gray-700">Zipcode</label>
+               <input type="text" name="zipcode" id="zipcode" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['zipcode']) ?>">
+          </div>
+
+        <div class="mb-4">
+            <label for="country" class="block text-gray-700">Country</label>
+            <input type="text" name="country" id="country" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['country']) ?>">
         </div>
+    </div>
 
         <!-- Delivery Method -->
         <div class="p-4 border rounded-lg mb-4">

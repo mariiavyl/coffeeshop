@@ -7,14 +7,13 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J2CXNQYNMZ');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2CXNQYNMZ');
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,24 +29,10 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
                     <img src="logo mini.png" alt="Logo" class="h-6 w-auto">
                 </a>
             </li>
-             <li><a href="index.php" class="text-white font-semibold hover:text-gray-300">Shop</a></li>
+            <li><a href="index.php" class="text-white font-semibold hover:text-gray-300">Shop</a></li>
             <li><a href="knowledge.php" class="text-white font-semibold hover:text-gray-300">Knowledge</a></li>
-           
         </ul>
         <div class="relative flex items-center space-x-4">
-            <!-- Language Dropdown -->
-            <div class="relative">
-                <button id="language-dropdown" class="text-white font-semibold hover:text-gray-300 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" />
-                    </svg>
-                    <span class="ml-2">EN</span>
-                </button>
-                <div id="language-dropdown-menu" class="hidden absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg">
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">English</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Finnish</a>
-                </div>
-            </div>
             <!-- Cart Icon -->
             <a href="cart.php" class="text-white font-semibold hover:text-gray-300 relative flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -66,22 +51,5 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
         </div>
     </div>
 </nav>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const languageDropdown = document.getElementById("language-dropdown");
-    const languageDropdownMenu = document.getElementById("language-dropdown-menu");
-
-    languageDropdown.addEventListener("click", function() {
-        languageDropdownMenu.classList.toggle("hidden");
-    });
-
-    document.addEventListener("click", function(event) {
-        if (!languageDropdown.contains(event.target) && !languageDropdownMenu.contains(event.target)) {
-            languageDropdownMenu.classList.add("hidden");
-        }
-    });
-});
-</script>
 
 <?php if (!isset($disable_breadcrumbs)) include 'breadcrumbs.php'; ?>

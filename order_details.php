@@ -15,8 +15,12 @@ if (!$order_id) {
     exit;
 }
 
-// Fetch order details
-$stmt = $db_connection->prepare("SELECT order_date, total_price_alv, delivery_method FROM orders WHERE id = ? AND customer_id = ?");
+// Fetch order details along with address information
+$stmt = $db_connection->prepare("
+    SELECT o.order_date, o.total_price_alv, o.delivery_method, o.address, o.city, o.state, o.zipcode, o.country
+    FROM orders o
+    WHERE o.id = ? AND o.customer_id = ?
+");
 $stmt->execute([$order_id, $_SESSION['user_id']]);
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -53,6 +57,11 @@ $order_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
         <p><strong>Order Date:</strong> <?= htmlspecialchars($order['order_date']) ?></p>
         <p><strong>Total Price:</strong> <?= htmlspecialchars($order['total_price_alv']) ?> €</p>
         <p><strong>Delivery Method:</strong> <?= htmlspecialchars($order['delivery_method']) ?></p>
+        <p><strong>Address:</strong> <?= htmlspecialchars($order['address']) ?></p>
+        <p><strong>City:</strong> <?= htmlspecialchars($order['city']) ?></p>
+        <p><strong>State:</strong> <?= htmlspecialchars($order['state']) ?></p>
+        <p><strong>Zipcode:</strong> <?= htmlspecialchars($order['zipcode']) ?></p>
+        <p><strong>Country:</strong> <?= htmlspecialchars($order['country']) ?></p>
     </div>
 
     <h4 class="text-lg font-semibold mt-6 mb-3">Order Items</h4>

@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Get user data including payment information
-$stmt = $db_connection->prepare("SELECT email, name, lastname, address, phone, card_number, card_holder, expiry_date, cvv FROM customers WHERE id = ?");
+// Get user data including address information
+$stmt = $db_connection->prepare("SELECT email, name, lastname, address, city, state, zipcode, country, phone, card_number, card_holder, expiry_date, cvv FROM customers WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -20,10 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
     $name = $_POST['name'] ?? '';
     $lastname = $_POST['lastname'] ?? '';
     $address = $_POST['address'] ?? '';
+    $city = $_POST['city'] ?? '';
+    $state = $_POST['state'] ?? '';
+    $zipcode = $_POST['zipcode'] ?? '';
+    $country = $_POST['country'] ?? '';
     $phone = $_POST['phone'] ?? '';
     $delivery_method = $_POST['delivery_method'] ?? '';
 
-    if (empty($email) || empty($name) || empty($lastname) || empty($address) || empty($phone) || empty($delivery_method)) {
+    if (empty($email) || empty($name) || empty($lastname) || empty($address) || empty($city) || empty($state) || empty($zipcode) || empty($country) || empty($phone) || empty($delivery_method)) {
         $error_message = "All fields are required!";
     } else {
         try {
@@ -37,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
                 $total_price_alv += $product['price_alv'] * $qty;
             }
 
-            $stmt = $db_connection->prepare("INSERT INTO orders (customer_id, total_price_alv, delivery_method) VALUES (?, ?, ?)");
-            $stmt->execute([$_SESSION['user_id'], $total_price_alv, $delivery_method]);
+            $stmt = $db_connection->prepare("INSERT INTO orders (customer_id, total_price_alv, delivery_method, address, city, state, zipcode, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$_SESSION['user_id'], $total_price_alv, $delivery_method, $address, $city, $state, $zipcode, $country]);
             $order_id = $db_connection->lastInsertId();
 
             $stmt = $db_connection->prepare("INSERT INTO order_items (order_id, product_id, quantity, price_alv) VALUES (?, ?, ?, ?)");
@@ -103,10 +107,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
                 <label for="phone" class="block text-gray-700">Phone</label>
                 <input type="tel" name="phone" id="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['phone']) ?>" required>
             </div>
+        </div>
 
+        <!-- Address Information -->
+        <div class="p-4 border rounded-lg mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Address Information</h3>
             <div class="mb-4">
                 <label for="address" class="block text-gray-700">Address</label>
                 <input type="text" name="address" id="address" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['address']) ?>" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="city" class="block text-gray-700">City</label>
+                <input type="text" name="city" id="city" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['city']) ?>" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="state" class="block text-gray-700">State</label>
+                <input type="text" name="state" id="state" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['state']) ?>" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="zipcode" class="block text-gray-700">Zipcode</label>
+                <input type="text" name="zipcode" id="zipcode" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['zipcode']) ?>" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="country" class="block text-gray-700">Country</label>
+                <input type="text" name="country" id="country" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="<?= htmlspecialchars($user['country']) ?>" required>
             </div>
         </div>
 

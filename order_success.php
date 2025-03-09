@@ -3,7 +3,6 @@ include 'includes/db.php';
 $disable_breadcrumbs = true;
 include 'includes/header.php';
 
-
 // Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -18,9 +17,14 @@ if (!isset($_GET['order_id']) || !isset($_SESSION['user_id'])) {
 $order_id = $_GET['order_id'];
 
 // Fetch user data
-$stmt = $db_connection->prepare("SELECT email, name, lastname, address, phone FROM customers WHERE id = ?");
+$stmt = $db_connection->prepare("SELECT email, name, lastname, phone FROM customers WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fetch order details using the order_id
+$stmt = $db_connection->prepare("SELECT order_date, total_price_alv, delivery_method, address, city, state, zipcode, country FROM orders WHERE id = ? AND customer_id = ?");
+$stmt->execute([$order_id, $_SESSION['user_id']]);
+$order = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Fetch ordered items using the order_id
 $ordered_items = [];
@@ -42,14 +46,13 @@ foreach ($ordered_items as &$item) {
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J2CXNQYNMZ');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J2CXNQYNMZ');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Placed Successfully</title>
@@ -66,16 +69,20 @@ foreach ($ordered_items as &$item) {
             </span>
         </h2>
 
-        <!-- Recipient Details (перемещён вверх) -->
+        <!-- Recipient Details -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6 max-w-lg w-full">
             <h3 class="text-xl font-semibold mb-4">Recipient Details</h3>
             <p><strong>Name:</strong> <?= htmlspecialchars($user['name'] . ' ' . $user['lastname']) ?></p>
             <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
             <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone']) ?></p>
-            <p><strong>Address:</strong> <?= htmlspecialchars($user['address']) ?></p>
+            <p><strong>Address:</strong> <?= htmlspecialchars($order['address'] ?? '') ?></p>
+            <p><strong>City:</strong> <?= htmlspecialchars($order['city'] ?? '') ?></p>
+            <p><strong>State:</strong> <?= htmlspecialchars($order['state'] ?? '') ?></p>
+            <p><strong>Zipcode:</strong> <?= htmlspecialchars($order['zipcode'] ?? '') ?></p>
+            <p><strong>Country:</strong> <?= htmlspecialchars($order['country'] ?? '') ?></p>
         </div>
 
-        <!-- Order Summary (перемещён вниз) -->
+        <!-- Order Summary -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6 max-w-lg w-full">
             <h3 class="text-xl font-semibold mb-4">Order Summary</h3>
             <table class="min-w-full mb-4">
@@ -106,7 +113,7 @@ foreach ($ordered_items as &$item) {
         </div>
 
         <!-- Return Button -->
-        <div class="flex justify-end w-full max-w-lg">  
+        <div class="flex justify-end w-full max-w-lg">
             <a href="index.php" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 inline-block">
                 Return to Shopping
             </a>

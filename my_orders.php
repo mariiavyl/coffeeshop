@@ -23,12 +23,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="flex-1">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-semibold text-gray-800">Your Orders</h2>
-            <a href="profile.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                Back to Profile
-            </a>
+
         </div>
 
         <?php if (count($orders) > 0): ?>

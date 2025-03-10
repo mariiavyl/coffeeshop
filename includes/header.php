@@ -6,6 +6,12 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <link rel="icon" href="logo.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="logo.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="logo.png" sizes="48x48" type="image/png">
+    <link rel="icon" href="logo.png" sizes="192x192" type="image/png">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
   <script>

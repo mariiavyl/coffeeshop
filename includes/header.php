@@ -18,6 +18,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Coffee shop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -31,6 +32,7 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
             </li>
             <li><a href="index.php" class="text-white font-semibold hover:text-gray-300">Shop</a></li>
             <li><a href="knowledge.php" class="text-white font-semibold hover:text-gray-300">Knowledge</a></li>
+            <li><a href="about.php" class="text-white font-semibold hover:text-gray-300">About Us</a></li>
         </ul>
         <div class="relative flex items-center space-x-4">
             <!-- Cart Icon -->

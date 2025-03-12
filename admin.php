@@ -7,8 +7,12 @@ include 'includes/header.php';
 
 $tables = ['products', 'customers', 'orders', 'order_items']; 
 ?>
+<!--Body start-->
+<body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
 
-<div class="w-full mt-4 px-4">
+<div class="w-full mt-4 px-4 mb-4">
     <h2 class="text-center text-3xl font-semibold text-danger mb-6">Admin Panel</h2>
     <ul class="flex space-x-4 justify-center mb-4">
         <?php foreach ($tables as $table): ?>
@@ -101,6 +105,8 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
         $stmt = $db_connection->query("SELECT * FROM $table");
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        
+
         echo '<div class="overflow-x-auto mb-6"><table class="min-w-full table-auto border-separate border-spacing-0 border border-gray-300"><thead>';
         echo '<tr class="bg-gray-100">';
         foreach (array_keys($rows[0] ?? []) as $column) {
@@ -169,3 +175,4 @@ $tables = ['products', 'customers', 'orders', 'order_items'];
 </div>
 
 <?php include 'includes/footer.php'; ?>
+</div>

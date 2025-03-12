@@ -36,8 +36,12 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
     <title>Product Details</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
+
 <body class="bg-gray-100">
-    <div class="container mx-auto p-6 mt-8 max-w-4xl">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
+    <div class="container mx-auto p-6 max-w-4xl">
 
     <?php $fromStore = isset($_GET['from']) && $_GET['from'] === 'store'; ?>
 
@@ -85,7 +89,8 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
             </div>
         </div>
     </div>
+    <?php include 'includes/footer.php'; ?>
+</div>
 
-<?php include 'includes/footer.php'; ?>
 </body>
 </html>

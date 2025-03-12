@@ -43,19 +43,5 @@ function generate_breadcrumbs() {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website</title>
-    <link rel="stylesheet" href="path/to/tailwind.css"> <!-- Подключаем Tailwind CSS -->
-</head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-6">
-        <div class="text-gray-700">
+
             <?php echo generate_breadcrumbs(); ?>
-        </div>
-    </div>
-</body>
-</html>

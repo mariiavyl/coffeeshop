@@ -58,7 +58,10 @@ foreach ($ordered_items as &$item) {
     <title>Order Placed Successfully</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+
+<body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
     <main class="container mx-auto p-6 flex flex-col items-center">
         <h2 class="text-2xl font-semibold text-green-600 mb-4 flex items-center gap-2">
             Order Placed Successfully!
@@ -120,6 +123,7 @@ foreach ($ordered_items as &$item) {
         </div>
     </main>
 </body>
-</html>
+
 
 <?php include 'includes/footer.php'; ?>
+                    </div>

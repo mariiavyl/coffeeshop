@@ -68,7 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
 }
 ?>
 
+
 <body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
 <div class="container mx-auto p-6 bg-white mt-8 max-w-4xl rounded-lg">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6">Checkout</h2>
 
@@ -242,3 +245,4 @@ document.addEventListener("DOMContentLoaded", function() {
 </html>
 
 <?php include 'includes/footer.php'; ?>
+</div>

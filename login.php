@@ -1,5 +1,6 @@
 <?php
 include 'includes/db.php';
+$disable_breadcrumbs = true;
 include 'includes/header.php';
 
 if (isset($_SESSION['user_id'])) {
@@ -46,10 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-
-<div class="flex justify-center py-12">
-        <div class="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <div class="flex-grow flex items-center justify-center py-12">
+        <div class="content w-full max-w-md bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
             <form action="" method="POST" class="space-y-4">
                 <div>
@@ -66,8 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p class="text-center text-sm mt-4">Don't have an account? <a href="register.php" class="text-blue-500 hover:underline">Register here</a>.</p>
         </div>
     </div>
-
-    <?php include 'includes/footer.php'; ?>
+        <?php include 'includes/footer.php'; ?>
+    </div>
 
 </body>
 </html>

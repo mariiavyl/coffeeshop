@@ -47,7 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Shopping Cart</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+
+<body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
     <main class="container mx-auto p-6 max-w-4xl">
         <h2 class="text-2xl font-bold mb-6 text-center">Your Cart</h2>
         <?php
@@ -113,6 +116,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
     </main>
 </body>
-</html>
-
 <?php include 'includes/footer.php'; ?>
+    </div>

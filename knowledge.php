@@ -27,6 +27,9 @@ $images = [
 ];
 ?>
 
+<body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
 <h1 class="text-3xl font-bold text-center my-8">Learn More About Coffee and Brewing Methods</h1>
 <p class="text-lg text-center mb-8">Here you can find information about different coffee brewing methods and how to use them.</p>
 
@@ -116,3 +119,4 @@ $images = [
 </div>
 
 <?php include 'includes/footer.php'; ?>
+    </div>

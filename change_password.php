@@ -82,61 +82,66 @@ if (isset($_SESSION['password_change_error'])) {
     <title>Change Password</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
-<div class="container mx-auto p-6 bg-white mt-8 max-w-4xl rounded-lg flex">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
+        <div class="flex mx-auto w-full p-6 bg-white max-w-4xl mb-12 my-12 rounded-lg">
+            <!-- Sidebar -->
+            <?php include 'includes/sidebar_profile.php'?>
 
-    <!-- Sidebar -->
-    <?php include 'includes/sidebar_profile.php'?>
+            <!-- Change Password Content -->
+            <div class="flex-1">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Change Password</h2>
 
-    <!-- Change Password Content -->
-    <div class="flex-1">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Change Password</h2>
+                <!-- Notification -->
+                <?php if ($error_message): ?>
+                    <div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-yellow-500 text-white rounded-lg shadow-lg">
+                        <?= $error_message ?>
+                    </div>
+                    <script>
+                        setTimeout(() => {
+                            document.getElementById("warning-notification").remove();
+                        }, 3000);
+                    </script>
+                <?php elseif ($success_message): ?>
+                    <div id="success-notification" class="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded-lg shadow-lg">
+                        <?= $success_message ?>
+                    </div>
+                    <script>
+                        setTimeout(() => {
+                            document.getElementById("success-notification").remove();
+                        }, 3000);
+                    </script>
+                <?php endif; ?>
 
-        <!-- Notification -->
-        <?php if ($error_message): ?>
-            <div id="warning-notification" class="fixed bottom-4 right-4 p-4 bg-yellow-500 text-white rounded-lg shadow-lg">
-                <?= $error_message ?>
+                <form method="post">
+                    <div class="mb-4">
+                        <label for="current_password" class="block text-gray-700">Current Password</label>
+                        <input type="password" name="current_password" id="current_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="new_password" class="block text-gray-700">New Password</label>
+                        <input type="password" name="new_password" id="new_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confirm_password" class="block text-gray-700">Confirm Password</label>
+                        <input type="password" name="confirm_password" id="confirm_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Change Password</button>
+                    </div>
+                </form>
             </div>
-            <script>
-                setTimeout(() => {
-                    document.getElementById("warning-notification").remove();
-                }, 3000);
-            </script>
-        <?php elseif ($success_message): ?>
-            <div id="success-notification" class="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded-lg shadow-lg">
-                <?= $success_message ?>
-            </div>
-            <script>
-                setTimeout(() => {
-                    document.getElementById("success-notification").remove();
-                }, 3000);
-            </script>
-        <?php endif; ?>
-
-        <form method="post">
-            <div class="mb-4">
-                <label for="current_password" class="block text-gray-700">Current Password</label>
-                <input type="password" name="current_password" id="current_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="new_password" class="block text-gray-700">New Password</label>
-                <input type="password" name="new_password" id="new_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="confirm_password" class="block text-gray-700">Confirm Password</label>
-                <input type="password" name="confirm_password" id="confirm_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-            </div>
-
-            <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Change Password</button>
-            </div>
-        </form>
+        </div>
+        <?php include 'includes/footer.php'; ?> 
     </div>
-</div>
+
 
 </body>
 </html>
 
-<?php include 'includes/footer.php'; ?>
+

@@ -1,6 +1,10 @@
 <?php 
 include 'includes/header.php'; 
 ?>
+
+<body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
 <div class="container mx-auto">
     <!-- Intro Text -->
     <h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">Contact Us</h2>
@@ -50,3 +54,4 @@ include 'includes/header.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
+</div>

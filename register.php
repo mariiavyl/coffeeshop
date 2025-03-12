@@ -1,5 +1,6 @@
 <?php
 include 'includes/db.php';
+$disable_breadcrumbs = true;
 include 'includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -69,9 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <div class="flex justify-center py-12">
+    <div class="flex-grow flex justify-center items-center py-12">
         <div class="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Register</h2>
             <form method="POST" class="space-y-4">
@@ -109,8 +110,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p class="text-center text-sm mt-4">Already have an account? <a href="login.php" class="text-blue-500 hover:underline">Login here</a>.</p>
         </div>
     </div>
-
     <?php include 'includes/footer.php'; ?>
+</div>
+ 
+
 
     <style>
         .iti {

@@ -39,8 +39,9 @@ $items_stmt = $db_connection->prepare("
 $items_stmt->execute([$order_id]);
 $order_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <body class="bg-gray-100">
+<div class=" flex flex-col h-screen justify-between">
+<?php include 'navbar.php'?>
 <div class="container mx-auto p-6 bg-white mt-8 max-w-4xl rounded-lg">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-semibold text-gray-800">Order Details</h2>
@@ -82,5 +83,6 @@ $order_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php include 'includes/footer.php'; ?>
+</div>
 </body>
 </html>

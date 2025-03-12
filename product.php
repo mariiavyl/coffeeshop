@@ -1,3 +1,4 @@
+
 <?php
 include 'includes/db.php';
 include 'includes/header.php';
@@ -22,24 +23,14 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J2CXNQYNMZ');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-
 <body class="bg-gray-100">
-<div class=" flex flex-col h-screen justify-between">
+<div class="flex flex-col h-screen justify-between">
 <?php include 'navbar.php'?>
     <div class="container mx-auto p-6 max-w-4xl">
 
@@ -61,7 +52,6 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
     </a>
 <?php endif; ?>
 
-
         <div class="bg-white rounded-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Product Image -->
@@ -73,17 +63,22 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
                 <div>
                     <h2 class="text-3xl font-semibold mb-4 text-gray-800"><?= htmlspecialchars($product['name'] ?? 'No name') ?></h2>
                     <p class="text-gray-600 mb-4"><?= htmlspecialchars($product['description'] ?? 'No description available') ?></p>
-                    <p class="text-2xl text-red-600 font-bold mb-6"><?= htmlspecialchars($product['price_alv'] ?? '0.00') ?> €</p>
+                    <p class="text-2xl text-red-600 font-bold mb-6">
+                        <?= htmlspecialchars($product['price_alv'] ?? '0.00') ?> €
+                    </p>
+                    <p class="text-sm text-gray-600">Stock: <?= $product['stock'] > 0 ? $product['stock'] : 'Out of stock' ?></p>
 
                     <form action="cart.php" method="post" class="space-y-4">
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
 
                         <div>
                             <label for="quantity" class="block text-gray-700">Quantity</label>
-                            <input type="number" name="quantity" id="quantity" value="1" min="1" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <input type="number" name="quantity" id="quantity" value="1" min="1" max="<?= $product['stock'] ?>" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
                         </div>
 
-                        <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">Add to Cart</button>
+                        <button type="submit" class="w-full px-6 py-2 rounded-md transition-all duration-200 <?php echo ($product['stock'] > 0) ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'; ?>" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
+                            Add to Cart
+                        </button>
                     </form>
                 </div>
             </div>

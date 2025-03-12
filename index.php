@@ -1,3 +1,4 @@
+
 <?php
 include 'includes/db.php';
 include 'includes/header.php';
@@ -67,34 +68,29 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="flex flex-col justify-between p-4 h-full">
                         <div>
                             <h5 class="text-lg font-semibold text-gray-900"><?= htmlspecialchars($product['name'] ?? 'No name') ?></h5>
-                            <p class="text-lg text-red-500 font-bold mt-1"><?= htmlspecialchars($product['price_alv'] ?? '0.00') ?> €</p>
+                            <div class="flex justify-between items-center">
+    <p class="text-lg text-red-500 font-bold mt-1">
+        <?= htmlspecialchars($product['price_alv'] ?? '0.00') ?> €
+    </p>
+    <p class="text-sm text-gray-500 mt-1">
+        Stock: <?= htmlspecialchars($product['stock'] ?? '0') ?>
+    </p>
+</div>
                         </div>
                         <div class="flex items-center justify-center space-x-2 mt-4 mb-4">
                             <a href="product.php?id=<?= $product['id'] ?>&from=store" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200">View Product</a>
                             <form action="cart.php" method="post" class="flex">
                                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
                                 <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg ml-2 hover:bg-green-600 transition-all duration-200">Add to cart</button>
+                                <button type="submit" class="px-6 py-2 rounded-lg ml-2 transition-all duration-200 <?php echo ($product['stock'] > 0) ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'; ?>" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
+                                    Add to cart
+                                </button>
                             </form>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-
-        <script>
-            document.querySelectorAll('img').forEach(function(img) {
-                img.onload = function() {
-                    const imgHeight = img.naturalHeight;
-                    const container = img.closest('.image-container');
-                    if (imgHeight < 300) {
-                        container.classList.add('pt-4', 'pb-4');
-                    } else {
-                        container.classList.remove('pt-4', 'pb-4');
-                    }
-                }
-            });
-        </script>
 
         <?php include 'includes/footer.php'; ?>
     </div>

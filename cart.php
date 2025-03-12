@@ -1,3 +1,4 @@
+
 <?php
 include 'includes/db.php';
 include 'includes/header.php';
@@ -6,25 +7,28 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['remove'])) {
-        $product_id = $_POST['product_id'];
-        unset($_SESSION['cart'][$product_id]);
-    } elseif (isset($_POST['update'])) {
-        $product_id = $_POST['product_id'];
-        $quantity = $_POST['quantity'];
-        $_SESSION['cart'][$product_id] = $quantity;
-    } else {
-        $product_id = $_POST['product_id'];
-        $quantity = $_POST['quantity'];
+$error_message = '';
 
-        // Check if the product is already in the cart
-        if (isset($_SESSION['cart'][$product_id])) {
-            // Increment the quantity
-            $_SESSION['cart'][$product_id] += $quantity;
-        } else {
-            // Add the product to the cart
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $product_id = $_POST['product_id'];
+    $quantity = (int)$_POST['quantity'];
+    
+    // Проверка наличия товара на складе
+    $stmt = $db_connection->prepare("SELECT stock FROM products WHERE id = ?");
+    $stmt->execute([$product_id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($product && $quantity > $product['stock']) {
+        $error_message = "Only " . $product['stock'] . " items in stock!";
+    } else {
+        if (isset($_POST['remove'])) {
+            unset($_SESSION['cart'][$product_id]);
+        } elseif (isset($_POST['update'])) {
             $_SESSION['cart'][$product_id] = $quantity;
+        } else {
+            $_SESSION['cart'][$product_id] = isset($_SESSION['cart'][$product_id]) 
+                ? $_SESSION['cart'][$product_id] + $quantity 
+                : $quantity;
         }
     }
 }
@@ -33,15 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2CXNQYNMZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J2CXNQYNMZ');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
@@ -53,6 +48,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include 'navbar.php'?>
     <main class="container mx-auto p-6 max-w-4xl">
         <h2 class="text-2xl font-bold mb-6 text-center">Your Cart</h2>
+        
+        <?php if (!empty($error_message)): ?>
+            <div id="stock-error" class="bg-red-500 text-white p-4 rounded-lg mb-4 text-center">
+                <?= htmlspecialchars($error_message) ?>
+            </div>
+        <?php endif; ?>
+        
         <?php
         if (empty($_SESSION['cart'])) {
             echo "<p class='text-center text-gray-600'>Your cart is empty</p>";
@@ -82,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<td class='py-3 px-4'>
                         <form action='cart.php' method='post' class='flex'>
                             <input type='hidden' name='product_id' value='{$id}'>
-                            <input type='number' name='quantity' value='{$qty}' min='1' class='form-control w-16 mr-2 text-center'>
+                            <input type='number' name='quantity' value='{$qty}' min='1' class='form-control w-16 mr-2 text-center' oninput='hideStockError()'>
                             <button type='submit' name='update' class='bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600'>Update</button>
                         </form>
                       </td>";
@@ -97,7 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "</tr>";
             }
 
-            // Subtotal inside the table, in a similar style to the total
             echo '<tr class="border-t">';
             echo '<td colspan="3" class="py-3 px-4 text-right font-semibold">Subtotal</td>';
             echo '<td colspan="2" class="py-3 px-4 text-right bg-gray-100 border border-gray-300 rounded-lg shadow-sm text-gray-800">';
@@ -110,11 +111,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             echo '<div class="flex justify-between mt-6">';
             echo '<a href="index.php" class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600">Back to Shopping</a>';
-            echo '<a href="process_order.php" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">Checkout</a>';
+            echo '<button onclick="checkStockBeforeCheckout()" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">Checkout</button>';
             echo '</div>';
         }
         ?>
     </main>
 </body>
+
+<script>
+function hideStockError() {
+    const errorDiv = document.getElementById('stock-error');
+    if (errorDiv) {
+        errorDiv.style.display = 'none';
+    }
+}
+
+function checkStockBeforeCheckout() {
+    const errorDiv = document.getElementById('stock-error');
+    if (errorDiv && errorDiv.style.display !== 'none') {
+        alert("Fix the stock issues before proceeding to checkout.");
+    } else {
+        window.location.href = "process_order.php";
+    }
+}
+</script>
+
 <?php include 'includes/footer.php'; ?>
-    </div>
+</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 01:32 PM
+-- Generation Time: Mar 10, 2025 at 08:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,9 @@ INSERT INTO `customers` (`id`, `name`, `lastname`, `email`, `password`, `phone`,
 (10, '', '', 'test2@mail', '123', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (11, 'mari', 'vyl', 'maria@mail', '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (77, 'Yuliia', 'Ivanska', 'kova@gmail.com', '123', '+9950466331676', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(84, 'Yuliia', 'Ivansk', 'ivanskayulia.yunavili@gmail.com', '123', '+19729530', 'Sahakatu 2', 'Routio', 'Uusimaa', '08100', 'Finland', '1111111111111111', 'aa aa', '11/11', '111');
+(84, 'Yuliia', 'Ivanska', 'ivanskayulia.yunavili@gmail.com', '123', '+358972953065', 'Sahakatu', 'Lohja', 'Uusimaa', '08700', 'Finland', '111111111111111', 'aa oo', '11/11', '111'),
+(86, 'Yuliia', 'Ivanska', 'yunavili@gmail.com', '1111', '04663316764', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(87, 'Yuliia', 'Ivanska', 'kk@gmail.com', '123', '+251972953065', 'Sahakatu 2', 'Lohja', 'Dnipro', '08100', 'Finland', '1111111111111111', 'me', '11/11', '111');
 
 -- --------------------------------------------------------
 
@@ -71,44 +73,70 @@ CREATE TABLE `orders` (
   `customer_id` int(11) NOT NULL,
   `order_date` datetime DEFAULT current_timestamp(),
   `total_price_alv` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `delivery_method` enum('door_delivery','post_office','pickup') NOT NULL
+  `delivery_method` enum('door_delivery','post_office','pickup') NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `zipcode` varchar(20) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `total_price_alv`, `delivery_method`) VALUES
-(5, 8, '2025-02-12 13:15:12', 37.00, 'door_delivery'),
-(6, 8, '2025-02-12 13:16:17', 4.50, 'door_delivery'),
-(7, 11, '2025-02-25 17:02:20', 275.00, 'door_delivery'),
-(8, 10, '2025-02-25 18:07:48', 49.00, 'door_delivery'),
-(9, 10, '2025-02-27 09:12:12', 40.00, 'door_delivery'),
-(10, 10, '2025-02-27 09:14:47', 27.00, 'door_delivery'),
-(11, 10, '2025-02-27 09:44:44', 251.65, 'door_delivery'),
-(12, 10, '2025-02-27 09:53:30', 62.75, 'door_delivery'),
-(13, 10, '2025-02-27 09:57:27', 12.55, 'door_delivery'),
-(16, 9, '2025-02-27 18:13:29', 61.50, 'door_delivery'),
-(17, 84, '2025-03-01 22:04:53', 69.03, 'door_delivery'),
-(18, 84, '2025-03-01 22:05:42', 5.65, 'door_delivery'),
-(19, 77, '2025-03-03 17:21:34', 61.50, 'door_delivery'),
-(20, 84, '2025-03-04 18:38:20', 0.00, 'post_office'),
-(21, 84, '2025-03-04 19:29:26', 75.94, 'door_delivery'),
-(22, 84, '2025-03-04 19:33:43', 13.18, 'door_delivery'),
-(23, 84, '2025-03-04 19:39:50', 61.50, 'pickup'),
-(24, 84, '2025-03-04 19:44:33', 0.00, 'pickup'),
-(25, 84, '2025-03-04 19:46:06', 0.00, 'pickup'),
-(26, 84, '2025-03-04 19:47:08', 0.00, 'door_delivery'),
-(27, 84, '2025-03-04 20:03:13', 7.53, 'post_office'),
-(28, 84, '2025-03-04 20:10:15', 0.00, 'door_delivery'),
-(29, 84, '2025-03-04 20:11:04', 77.82, 'pickup'),
-(30, 84, '2025-03-05 13:53:23', 61.50, 'post_office'),
-(31, 84, '2025-03-05 14:21:44', 85.98, 'pickup'),
-(32, 84, '2025-03-05 14:47:38', 61.50, 'pickup'),
-(33, 84, '2025-03-05 14:57:06', 61.50, 'door_delivery'),
-(34, 84, '2025-03-05 15:06:37', 61.50, 'pickup'),
-(35, 84, '2025-03-05 20:00:08', 253.53, 'pickup'),
-(36, 84, '2025-03-06 15:53:00', 7.53, 'pickup');
+INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `total_price_alv`, `delivery_method`, `address`, `city`, `state`, `zipcode`, `country`) VALUES
+(5, 8, '2025-02-12 13:15:12', 37.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(6, 8, '2025-02-12 13:16:17', 4.50, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(7, 11, '2025-02-25 17:02:20', 275.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(8, 10, '2025-02-25 18:07:48', 49.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(9, 10, '2025-02-27 09:12:12', 40.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(10, 10, '2025-02-27 09:14:47', 27.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(11, 10, '2025-02-27 09:44:44', 251.65, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(12, 10, '2025-02-27 09:53:30', 62.75, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(13, 10, '2025-02-27 09:57:27', 12.55, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(16, 9, '2025-02-27 18:13:29', 61.50, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(17, 84, '2025-03-01 22:04:53', 69.03, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(18, 84, '2025-03-01 22:05:42', 5.65, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(19, 77, '2025-03-03 17:21:34', 61.50, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(20, 84, '2025-03-04 18:38:20', 0.00, 'post_office', NULL, NULL, NULL, NULL, NULL),
+(21, 84, '2025-03-04 19:29:26', 75.94, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(22, 84, '2025-03-04 19:33:43', 13.18, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(23, 84, '2025-03-04 19:39:50', 61.50, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(24, 84, '2025-03-04 19:44:33', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(25, 84, '2025-03-04 19:46:06', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(26, 84, '2025-03-04 19:47:08', 0.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(27, 84, '2025-03-04 20:03:13', 7.53, 'post_office', NULL, NULL, NULL, NULL, NULL),
+(28, 84, '2025-03-04 20:10:15', 0.00, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(29, 84, '2025-03-04 20:11:04', 77.82, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(30, 84, '2025-03-05 13:53:23', 61.50, 'post_office', NULL, NULL, NULL, NULL, NULL),
+(31, 84, '2025-03-05 14:21:44', 85.98, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(32, 84, '2025-03-05 14:47:38', 61.50, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(33, 84, '2025-03-05 14:57:06', 61.50, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(34, 84, '2025-03-05 15:06:37', 61.50, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(35, 84, '2025-03-05 20:00:08', 253.53, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(36, 84, '2025-03-06 15:53:00', 7.53, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(37, 84, '2025-03-09 14:36:10', 91.62, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(38, 84, '2025-03-09 17:54:34', 5.65, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(39, 84, '2025-03-09 17:55:41', 7.53, 'post_office', NULL, NULL, NULL, NULL, NULL),
+(40, 84, '2025-03-09 18:11:33', 16.32, 'pickup', 'Saha', 'Lohja', 'Uusimaa', '08100', 'Finland'),
+(41, 84, '2025-03-09 18:12:07', 7.53, 'post_office', 'Saha', 'Lohja', 'Uusimaa', '08135', 'Finland'),
+(42, 84, '2025-03-09 19:49:17', 61.50, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(43, 84, '2025-03-09 19:50:18', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(44, 84, '2025-03-09 19:51:04', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(45, 84, '2025-03-09 19:51:17', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(46, 84, '2025-03-09 19:58:27', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(47, 84, '2025-03-09 19:58:37', 0.00, 'pickup', NULL, NULL, NULL, NULL, NULL),
+(48, 84, '2025-03-09 19:59:34', 61.50, 'door_delivery', NULL, NULL, NULL, NULL, NULL),
+(49, 84, '2025-03-09 20:07:38', 61.50, 'post_office', NULL, NULL, NULL, NULL, NULL),
+(50, 84, '2025-03-09 20:08:04', 0.00, 'post_office', NULL, NULL, NULL, NULL, NULL),
+(51, 84, '2025-03-09 20:08:35', 61.50, 'door_delivery', 'Sahakatu', 'Lohja', 'Uusimaa', '08700', 'Finland'),
+(52, 84, '2025-03-09 20:13:03', 5.65, 'door_delivery', 'Sahakatu', 'Lohja', 'Uusimaa', '08700', 'Finland'),
+(53, 84, '2025-03-09 20:13:44', 0.00, 'door_delivery', 'Sahakatu', 'Lohja', 'Uusimaa', '08700', 'Finland'),
+(54, 84, '2025-03-09 20:14:49', 0.00, 'door_delivery', 'Sahakatu', 'Lohja', 'Uusimaa', '08700', 'Finland'),
+(55, 84, '2025-03-09 20:15:23', 61.50, 'post_office', 'Sahakatu', 'Lohja', 'Uusimaa', '08700', 'Finland'),
+(56, 84, '2025-03-09 20:47:35', 67.15, 'door_delivery', 'Sahakatu 2', 'Routio', 'Uusimaa', '08100', 'Finland'),
+(57, 87, '2025-03-09 22:17:21', 26.37, 'post_office', 'Dnipro city', 'Kamianske', 'Dnipro', '08100', 'Finland');
 
 -- --------------------------------------------------------
 
@@ -162,7 +190,23 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price_al
 (46, 34, 6, 1, 61.50),
 (47, 35, 7, 1, 7.53),
 (48, 35, 6, 4, 61.50),
-(49, 36, 7, 1, 7.53);
+(49, 36, 7, 1, 7.53),
+(50, 37, 6, 1, 61.50),
+(51, 37, 7, 4, 7.53),
+(52, 38, 2, 1, 5.65),
+(53, 39, 7, 1, 7.53),
+(54, 40, 7, 1, 7.53),
+(55, 40, 8, 1, 8.79),
+(56, 41, 7, 1, 7.53),
+(57, 42, 6, 1, 61.50),
+(58, 48, 6, 1, 61.50),
+(59, 49, 6, 1, 61.50),
+(60, 51, 6, 1, 61.50),
+(61, 52, 2, 1, 5.65),
+(62, 55, 6, 1, 61.50),
+(63, 56, 6, 1, 61.50),
+(64, 56, 2, 1, 5.65),
+(65, 57, 18, 3, 8.79);
 
 -- --------------------------------------------------------
 
@@ -258,19 +302,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `products`

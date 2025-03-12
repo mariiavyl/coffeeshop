@@ -35,9 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
 
             $total_price_alv = 0;
             foreach ($_SESSION['cart'] as $product_id => $qty) {
-                $stmt_product = $db_connection->prepare("SELECT price_alv FROM products WHERE id = ?");
+                $stmt_product = $db_connection->prepare("SELECT price_alv, stock FROM products WHERE id = ?");
                 $stmt_product->execute([$product_id]);
                 $product = $stmt_product->fetch(PDO::FETCH_ASSOC);
+
+                if ($product['stock'] < $qty) {
+                    throw new Exception("Not enough stock for product ID $product_id. Available: " . $product['stock']);
+                }
+                
                 $total_price_alv += $product['price_alv'] * $qty;
             }
 
@@ -46,28 +51,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])) {
             $order_id = $db_connection->lastInsertId();
 
             $stmt = $db_connection->prepare("INSERT INTO order_items (order_id, product_id, quantity, price_alv) VALUES (?, ?, ?, ?)");
+            $stmt_update_stock = $db_connection->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
+            
             foreach ($_SESSION['cart'] as $product_id => $qty) {
                 $stmt_product = $db_connection->prepare("SELECT price_alv FROM products WHERE id = ?");
                 $stmt_product->execute([$product_id]);
                 $product = $stmt_product->fetch(PDO::FETCH_ASSOC);
+                
                 $stmt->execute([$order_id, $product_id, $qty, $product['price_alv']]);
+                $stmt_update_stock->execute([$qty, $product_id]);
             }
 
             $db_connection->commit();
             $_SESSION['cart'] = [];
             $order_success = true;
 
-            // Redirect to order_success.php with order ID
             header("Location: order_success.php?order_id=$order_id");
             exit;
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             $db_connection->rollBack();
-            $error_message = "Error processing order: " . $e->getMessage();
+            $error_message = $e->getMessage();
         }
     }
 }
 ?>
-
 
 <body class="bg-gray-100">
 <div class=" flex flex-col h-screen justify-between">

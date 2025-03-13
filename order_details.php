@@ -45,7 +45,7 @@ $order_items = $items_stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mx-auto p-6 bg-white mt-8 max-w-4xl rounded-lg">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-semibold text-gray-800">Order Details</h2>
-        <a href="my_orders.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+        <a href="my_orders.php" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full transition duration-200 flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>

@@ -32,7 +32,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <table class="min-w-full bg-white shadow-md rounded-lg">
                             <thead>
                                 <tr class="bg-gray-100 text-gray-700 text-sm uppercase tracking-wider">
-                                    <th class="py-3 px-4 text-left first:rounded-tl-lg">Order Date</th>
+                                    <th class="py-3 px-4 text-left first:rounded-tl-xl">Order Date</th>
                                     <th class="py-3 px-4 text-left">Total Price (€)</th>
                                     <th class="py-3 px-4 text-left">Delivery Method</th>
                                     <th class="py-3 px-4 text-center last:rounded-tr-lg">Actions</th>
@@ -45,7 +45,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td class="py-3 px-4 text-gray-800 font-medium"><?= htmlspecialchars($order['total_price_alv']) ?> €</td>
                                         <td class="py-3 px-4 text-gray-800"><?= htmlspecialchars($order['delivery_method']) ?></td>
                                         <td class="py-3 px-4 text-center">
-                                            <a href="order_details.php?id=<?= urlencode($order['id']) ?>" class="border border-gray-400 text-gray-800 px-2 py-1 rounded-lg hover:bg-gray-300 transition duration-200">View Details</a>
+                                            <a href="order_details.php?id=<?= urlencode($order['id']) ?>" class="border border-gray-400 text-gray-800 px-2 py-1 rounded-full hover:bg-gray-300 transition duration-200">View Details</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

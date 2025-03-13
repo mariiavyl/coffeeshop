@@ -132,7 +132,7 @@ if (isset($_SESSION['password_change_error'])) {
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Change Password</button>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Change Password</button>
                     </div>
                 </form>
             </div>

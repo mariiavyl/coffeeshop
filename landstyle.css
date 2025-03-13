@@ -1,0 +1,167 @@
+.carousel-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: calc(100% / 4);
+    height: 512px;
+}
+
+.carousel-item img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    /* Ensure buttons are above carousel items */
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#prev {
+    left: 10px;
+}
+
+#next {
+    right: 10px;
+}
+
+.banner {
+    position: relative;
+    width: 100vw;
+    /* Full viewport width */
+    height: 100vh;
+    /* Full viewport height */
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.category-btn {
+    background-color: transparent;
+    /* Remove background color */
+    color: #333;
+    /* Default text color */
+    border: none;
+    /* Remove border */
+    cursor: pointer;
+    padding: 0;
+    /* Remove padding */
+}
+
+.category-btn.selected {
+    color: black;
+    /* Color for selected category */
+    font-weight: bold;
+    /* Make selected category bold */
+}
+
+.category-btn:not(.selected) {
+    color: gray;
+    /* Color for non-selected categories */
+}
+
+.category-btn:hover {
+    text-decoration: underline;
+    /* Add underline on hover */
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    font-style: italic;
+    /* Italic font style */
+    height: 120px;
+    /* Adjust height to fit one line of text */
+    white-space: nowrap;
+    /* Prevent line breaks */
+}
+
+.marquee-text {
+    display: inline-block;
+    font-size: 100px;
+    /* Font size */
+    font-weight: 800;
+    /* Extra bold font weight */
+    margin-right: 200px;
+    /* Space between texts */
+    position: absolute;
+    animation: marquee 12s linear infinite;
+}
+
+/* Position the first three marquee texts off-screen initially */
+.marquee-text:nth-child(1) {
+    animation-delay: 0s;
+    /* First text starts immediately */
+    transform: translateX(100vw);
+    /* Start off-screen to the right */
+}
+
+.marquee-text:nth-child(2) {
+    animation-delay: 4s;
+    /* Second text starts after 4 seconds */
+    transform: translateX(100vw);
+    /* Start off-screen to the right */
+}
+
+.marquee-text:nth-child(3) {
+    animation-delay: 8s;
+    /* Third text starts after 8 seconds */
+    transform: translateX(100vw);
+    /* Start off-screen to the right */
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100vw);
+        /* Start from the right edge of the viewport */
+    }
+
+    100% {
+        transform: translateX(-100%);
+        /* Move to the left edge of the viewport */
+    }
+}
+
+/* Media query to disable marquee animation on mobile screens */
+@media (max-width: 1049px) {
+    .marquee-text {
+        animation: none;
+        display: none;
+        /* Optionally hide the text */
+    }
+}

@@ -37,14 +37,14 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
     <?php $fromStore = isset($_GET['from']) && $_GET['from'] === 'store'; ?>
 
 <?php if ($fromOrderDetails && $order_id): ?>
-    <a href="order_details.php?id=<?= urlencode($order_id) ?>" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200 mb-4">
+    <a href="order_details.php?id=<?= urlencode($order_id) ?>" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full transition duration-200 mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Return to Order
     </a>
 <?php elseif ($fromStore): ?>
-    <a href="index.php" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg transition duration-200 mb-4">
+    <a href="index.php" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-full transition duration-200 mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
@@ -76,9 +76,10 @@ $order_id = $fromOrderDetails ? intval($_GET['order_id']) : null;
                             <input type="number" name="quantity" id="quantity" value="1" min="1" max="<?= $product['stock'] ?>" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
                         </div>
 
-                        <button type="submit" class="w-full px-6 py-2 rounded-md transition-all duration-200 <?php echo ($product['stock'] > 0) ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'; ?>" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
-                            Add to Cart
+                        <button type="submit" class="w-full px-6 py-2 rounded-full transition-all duration-200 <?php echo ($product['stock'] > 0) ? 'bg-yellow-950 text-white hover:bg-yellow-800' : 'bg-gray-400 text-gray-700 cursor-not-allowed'; ?>" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
+                             Add to Cart
                         </button>
+
                     </form>
                 </div>
             </div>

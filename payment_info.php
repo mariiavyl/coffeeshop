@@ -138,9 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="flex justify-end space-x-4 mt-8">
                         <?php if ($isEditing): ?>
-                            <button type="submit" name="save" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Save Changes</button>
+                            <button type="submit" name="save" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Save Changes</button>
                         <?php else: ?>
-                            <button type="submit" name="edit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200">Edit Payment Data</button>
+                            <button type="submit" name="edit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200">Edit Payment Data</button>
                         <?php endif; ?>
                     </div>
                 </form>

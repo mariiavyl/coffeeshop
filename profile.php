@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <h2 class="text-2xl font-semibold text-gray-800">Your Profile</h2>
 
                 <?php if (!$isEditing): ?>
-                    <a href="logout.php" class="flex items-center text-red-500 hover:text-red-700 bg-red-100 hover:bg-red-200 rounded-lg py-2 px-4">
+                    <a href="logout.php" class="flex items-center text-red-500 hover:text-red-700 bg-red-100 hover:bg-red-200 rounded-full py-2 px-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                         </svg>
@@ -193,9 +193,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="flex justify-end space-x-4 mt-8">
                     <?php if ($isEditing): ?>
-                        <button type="submit" name="save" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Save Changes</button>
+                        <button type="submit" name="save" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">Save Changes</button>
                     <?php else: ?>
-                        <button type="submit" name="edit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200">Edit Profile</button>
+                        <button type="submit" name="edit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200">Edit Profile</button>
                     <?php endif; ?>
                 </div>
             </form>

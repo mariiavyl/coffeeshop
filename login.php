@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                 </div>
                 <?php if (isset($error)) { echo "<div class='text-red-600 text-center'>$error</div>"; } ?>
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Login</button>
+                <button type="submit" class="w-full bg-yellow-950 text-white py-2 rounded-md hover:bg-gray-800">Login</button>
             </form>
-            <p class="text-center text-sm mt-4">Don't have an account? <a href="register.php" class="text-blue-500 hover:underline">Register here</a>.</p>
+            <p class="text-center text-sm mt-4">Don't have an account? <a href="register.php" class="text-yellow-950 hover:underline">Register here</a>.</p>
         </div>
     </div>
     <?php include 'includes/footer.php'; ?>

@@ -8,12 +8,6 @@ function getProductsByBrand($db_connection, $brand) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getCoffeeProducts($db_connection) {
-    $stmt = $db_connection->prepare("SELECT * FROM products WHERE category = 'coffee' LIMIT 3");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
 $brands = [
     "Chemex" => "https://chemexcoffeemaker.com/pages/how-to-brew-with-chemex",
     "AeroPress" => "https://aeropress.com/pages/how-to-use",
@@ -44,16 +38,16 @@ $images = [
             <a href="<?= $link ?>" target="_blank" class="text-blue-600 hover:underline">Read about how to use <?= $brand ?></a>
         </p>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12 mx-[4em]">
             <?php foreach (getProductsByBrand($db_connection, $brand) as $product): ?>
                 <div class="bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden flex flex-col h-[512px]">
                     <?php
                     $imageUrl = !empty($product['image_url']) ? $product['image_url'] : '2.jpg';
                     ?>
-                    <img src="<?= htmlspecialchars($imageUrl) ?>" class="w-full p-4 h-[300px] object-cover mx-auto" alt="<?= htmlspecialchars($product['name'] ?? 'Unknown Product') ?>"> 
+                    <img src="<?= htmlspecialchars($imageUrl) ?>" class="w-full p-4 h-[300px] object-cover mx-auto" alt="<?= htmlspecialchars($product['name'] ?? 'Unknown Product') ?>">
                     <div class="flex flex-col justify-between p-4 h-full">
                         <div>
-                            <h5 class="text-lg font-semibold text-gray-900"><?= htmlspecialchars($product['name'] ?? 'No name') ?></h5>
+                            <h5 class="text-lg font-semibold text-gray-900"> <?= htmlspecialchars($product['name'] ?? 'No name') ?></h5>
                             <div class="flex justify-between items-center">
                                 <p class="text-lg text-red-500 font-bold mt-1">
                                     <?= htmlspecialchars($product['price_alv'] ?? '0.00') ?> €
@@ -64,11 +58,11 @@ $images = [
                             </div>
                         </div>
                         <div class="flex items-center justify-center space-x-2 mt-4 mb-4">
-                            <a href="product.php?id=<?= $product['id'] ?>" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200">View Product</a>
+                            <a href="product.php?id=<?= $product['id'] ?>&from=store" class="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-200">View Product</a>
                             <form action="cart.php" method="post" class="flex">
                                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
                                 <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="px-6 py-2 rounded-lg ml-2 transition-all duration-200 <?php echo ($product['stock'] > 0) ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'; ?>" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
+                                <button type="submit" class="px-6 py-3 rounded-full ml-2 transition-all duration-200 <?php echo ($product['stock'] > 0) ? 'bg-yellow-950 text-white hover:bg-gray-800' : 'bg-gray-400 text-gray-700 cursor-not-allowed'; ?>" <?php echo ($product['stock'] > 0) ? '' : 'disabled'; ?>>
                                     Add to cart
                                 </button>
                             </form>
@@ -77,7 +71,7 @@ $images = [
                 </div>
             <?php endforeach; ?>
             <div class="flex justify-center items-center">
-                <a href="index.php" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">See All</a>
+            <a href="index.php" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">See All</a>
             </div>
         </div>
     <?php endforeach; ?>

@@ -105,9 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="checkbox" name="agree" class="mr-2" required>
                     <label for="agree" class="text-gray-700">I agree to the processing of my data</label>
                 </div>
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Register</button>
+                <button type="submit" class="w-full bg-yellow-950  text-white py-2 rounded-md hover:bg-gray-800">Register</button>
             </form>
-            <p class="text-center text-sm mt-4">Already have an account? <a href="login.php" class="text-blue-500 hover:underline">Login here</a>.</p>
+            <p class="text-center text-sm mt-4">Already have an account? <a href="login.php" class="text-yellow-950  hover:underline">Login here</a>.</p>
         </div>
     </div>
     <?php include 'includes/footer.php'; ?>

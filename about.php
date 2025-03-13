@@ -47,8 +47,9 @@ include 'includes/header.php';
                     <label for="message" class="block text-gray-700 font-semibold">Message</label>
                     <textarea id="message" name="message" required class="w-full px-4 py-3 mt-2 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" rows="5" placeholder="Your message"></textarea>
                 </div>
-                <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-all duration-200 w-full">Send Message</button>
-            </form>
+                <button type="submit" class="bg-yellow-950 text-white px-6 py-3 rounded-full hover:bg-yellow-800 transition-all duration-200 w-full">
+    Send Message
+</button>            </form>
         </div>
     </div>
 </div>
